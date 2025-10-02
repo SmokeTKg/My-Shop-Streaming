@@ -1,0 +1,433 @@
+/* Fuente */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+
+:root {
+  --bg: #0f172a;
+  --card: #1e293b;
+  --text: #f1f5f9;
+  --muted: #94a3b8;
+  --accent: #06b6d4;
+  --accent-dark: #0891b2;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+  overflow-x: hidden;
+  animation: fadeIn 0.8s ease-in-out;
+}
+
+/* ---------- ANIMACIONES ---------- */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ---------- HEADER ---------- */
+header {
+  background: rgba(15, 23, 42, 0.9);
+  backdrop-filter: blur(6px);
+  padding: 14px 0;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+  animation: fadeIn 0.8s ease;
+}
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 16px;
+}
+.flex-between {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.logo {
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--accent);
+}
+nav {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+nav a {
+  margin: 6px 12px;
+  color: var(--muted);
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.2s ease;
+}
+nav a.active,
+nav a:hover {
+  color: var(--accent);
+}
+
+/* ---------- BOTONES ---------- */
+.btn {
+  display: inline-block;
+  background: var(--accent);
+  color: #0f172a;
+  padding: 10px 18px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+.btn:hover {
+  background: var(--accent-dark);
+  transform: translateY(-2px) scale(1.05);
+  box-shadow: 0 0 12px rgba(6, 182, 212, 0.8);
+}
+.btn-secondary {
+  background: var(--card);
+  color: var(--text);
+  border: 1px solid var(--muted);
+  padding: 10px 18px;
+  border-radius: 8px;
+  font-weight: 600;
+  transition: all 0.25s ease;
+}
+.btn-secondary:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+/* ---------- HERO ---------- */
+.hero {
+  text-align: center;
+  padding: 120px 20px 80px;
+  background: linear-gradient(180deg, #0f172a 0%, #1e293b 100%);
+  animation: slideUp 1s ease;
+}
+.hero h2 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 16px;
+}
+.hero p {
+  color: var(--muted);
+  font-size: 1.1rem;
+  margin-bottom: 28px;
+}
+
+/* ---------- CATÁLOGO ---------- */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 24px;
+  margin: 60px auto;
+  padding: 0 16px;
+  max-width: 1200px;
+  justify-items: center; /* Centra las cards */
+}
+.card {
+  background: var(--card);
+  padding: 24px;
+  border-radius: 14px;
+  text-align: center;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.3);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  width: 100%;
+  max-width: 300px;
+  animation: slideUp 0.8s ease;
+}
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 24px rgba(0,0,0,0.5);
+}
+.card h3 {
+  margin-bottom: 12px;
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+.card p {
+  margin-bottom: 16px;
+  color: var(--muted);
+}
+
+/* ---------- FOOTER ---------- */
+footer {
+  text-align: center;
+  padding: 24px;
+  background: #0b1120;
+  color: var(--muted);
+  font-size: 14px;
+  border-top: 1px solid rgba(255,255,255,0.05);
+}
+
+/* ---------- PÁGINAS INTERNAS ---------- */
+.page {
+  padding: 80px 0;
+  line-height: 1.7;
+  max-width: 800px;
+  margin: 0 auto;
+  font-size: 1.05rem;
+}
+
+/* ---------- CARRITO ---------- */
+#cartBtn {
+  background: var(--accent);
+  border: none;
+  padding: 8px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.25s ease;
+}
+#cartBtn:hover {
+  background: var(--accent-dark);
+  transform: scale(1.05);
+}
+.cart {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 340px;
+  height: 100%;
+  background: #1e293b;
+  box-shadow: -6px 0 18px rgba(0,0,0,0.6);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  transform: translateX(0);
+  transition: transform 0.3s ease;
+  z-index: 2000;
+}
+.cart.hidden {
+  transform: translateX(100%);
+}
+.cart-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 18px;
+}
+.cart-items {
+  flex: 1;
+  overflow-y: auto;
+  font-size: 0.95rem;
+  margin-bottom: 16px;
+}
+.cart-items::-webkit-scrollbar {
+  width: 6px;
+}
+.cart-items::-webkit-scrollbar-thumb {
+  background: var(--accent);
+  border-radius: 4px;
+}
+.cart-actions button {
+  width: 100%;
+  margin-top: 10px;
+}
+
+/* Total del carrito */
+.cart-total {
+  margin-top: 10px;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text);
+}
+.cart-total hr {
+  border: none;
+  border-top: 1px solid rgba(255,255,255,0.1);
+  margin: 10px 0;
+}
+
+/* Botón vaciar carrito */
+.vaciar-btn {
+  margin: 10px 0;
+  background: #dc2626;
+  border: none;
+  color: white;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+.vaciar-btn:hover {
+  background: #b91c1c;
+  transform: scale(1.05);
+}
+
+/* Botón eliminar producto individual */
+.remove-btn {
+  background: transparent;
+  border: none;
+  color: #dc2626;
+  font-weight: bold;
+  cursor: pointer;
+  margin-left: 8px;
+  transition: transform 0.2s ease;
+}
+.remove-btn:hover {
+  transform: scale(1.2);
+}
+
+/* ---------- OPINIONES ---------- */
+.opiniones {
+  margin: 60px auto;
+  padding: 40px 20px;
+  background: var(--card);
+  border-radius: 12px;
+  max-width: 800px;
+  animation: fadeIn 1.2s ease;
+}
+.opiniones h2 {
+  text-align: center;
+  font-size: 1.8rem;
+  margin-bottom: 24px;
+}
+.opinion-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 30px;
+}
+.opinion-form input,
+.opinion-form textarea,
+.opinion-form select {
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: none;
+  background: #0f172a;
+  color: var(--text);
+  font-size: 1rem;
+}
+.opinion-form textarea {
+  min-height: 80px;
+  resize: vertical;
+}
+.lista-opiniones {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.opinion {
+  background: #0f172a;
+  padding: 16px;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+}
+.opinion strong {
+  color: var(--accent);
+}
+.opinion .puntuacion {
+  margin-top: 6px;
+  color: gold;
+}
+
+/* ---------- CONTACTO ---------- */
+.contact-cards {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin: 20px 0 40px;
+}
+.contact-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: var(--card);
+  padding: 14px 18px;
+  border-radius: 10px;
+  color: var(--text);
+  text-decoration: none;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+.contact-card:hover {
+  background: #0f172a;
+  transform: translateY(-3px);
+  box-shadow: 0 6px 16px rgba(0,0,0,0.5);
+  color: var(--accent);
+}
+
+/* ---------- RESPONSIVE ---------- */
+@media (max-width: 992px) {
+  nav {
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 10px;
+  }
+  nav a {
+    margin: 6px;
+    font-size: 0.95rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .hero {
+    padding: 80px 20px 50px;
+  }
+  .hero h2 {
+    font-size: 1.8rem;
+    line-height: 1.3;
+  }
+  .hero p {
+    font-size: 1rem;
+  }
+  
+  .grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+    justify-items: center;
+  }
+  .card {
+    max-width: 90%;
+  }
+
+  header .flex-between {
+    flex-direction: column;
+    gap: 10px;
+  }
+  .logo {
+    font-size: 20px;
+    margin-bottom: 6px;
+  }
+  #cartBtn {
+    align-self: flex-end;
+  }
+}
+
+@media (max-width: 480px) {
+  nav a {
+    font-size: 0.85rem;
+  }
+  .btn, .btn-secondary {
+    font-size: 0.9rem;
+    padding: 8px 14px;
+  }
+  .card h3 {
+    font-size: 1.1rem;
+  }
+  .card p {
+    font-size: 0.95rem;
+  }
+}

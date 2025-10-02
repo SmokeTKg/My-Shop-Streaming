@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <title>Mi Tienda Streaming</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header>
+    <div class="container flex-between">
+      <h1 class="logo">MiTienda</h1>
+      <nav>
+        <a href="index.html" class="active">🏠 Inicio</a>
+        <a href="sobre.html">ℹ️ Sobre</a>
+        <a href="politica.html">📜 Políticas</a>
+        <a href="contacto.html">📞 Contacto</a>
+      </nav>
+      <button id="cartBtn">🛒 <span id="cartCount">0</span></button>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-content">
+      <h2>🎬 Streaming sin complicaciones</h2>
+      <p>Revendedor autorizado. Disfruta tus plataformas favoritas con confianza y rapidez.</p>
+      <a href="#catalogo" class="btn">Ver catálogo</a>
+    </div>
+  </section>
+
+  <!-- CATÁLOGO -->
+  <main id="catalogo" class="container grid"></main>
+
+  <!-- OPINIONES -->
+  <section id="opiniones" class="container opiniones">
+    <h2>⭐ Opiniones de nuestros clientes</h2>
+    <form id="opinionForm" class="opinion-form">
+      <input type="text" id="nombre" placeholder="Tu nombre" required>
+      <textarea id="mensaje" placeholder="Escribe tu opinión..." required></textarea>
+      <label for="puntuacion">Puntuación:</label>
+      <select id="puntuacion" required>
+        <option value="5">⭐⭐⭐⭐⭐ - Excelente</option>
+        <option value="4">⭐⭐⭐⭐ - Muy bueno</option>
+        <option value="3">⭐⭐⭐ - Bueno</option>
+        <option value="2">⭐⭐ - Regular</option>
+        <option value="1">⭐ - Malo</option>
+      </select>
+      <button type="submit" class="btn">Enviar opinión</button>
+    </form>
+    <div id="listaOpiniones" class="lista-opiniones"></div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <p>© 2025 Mi Tienda Streaming | 🚀 Hecho con pasión</p>
+  </footer>
+
+  <!-- PANEL CARRITO -->
+  <aside id="cartPanel" class="cart hidden">
+    <div class="cart-header">
+      <h3>🛍️ Tu carrito</h3>
+      <button onclick="closeCart()">✕</button>
+    </div>
+    <div id="cartItems" class="cart-items"></div>
+    <div id="cartTotal" class="cart-total"></div>
+
+    <button onclick="vaciarCarrito()" class="btn-secondary vaciar-btn">🗑️ Vaciar carrito</button>
+
+    <div class="cart-actions">
+      <button onclick="checkoutWhatsApp()" class="btn">💬 Pagar WhatsApp</button>
+      <button onclick="checkoutEmail()" class="btn-secondary">📧 Pagar Email</button>
+    </div>
+  </aside>
+
+  <script src="scrip.js"></script>
+</body>
+</html>
