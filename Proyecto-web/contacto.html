@@ -1,50 +1,40 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="utf-8">
-  <title>Contacto - Mi Tienda</title>
-  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contacto - Mi Tienda Streaming</title>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
   <header>
-    <div class="container flex-between">
-      <h1 class="logo">MiTienda</h1>
+    <div class="container">
+      <div class="logo">🎬 MiTienda</div>
       <nav>
-        <a href="index.html">🏠 Inicio</a>
-        <a href="sobre.html">ℹ️ Sobre</a>
-        <a href="politica.html">📜 Políticas</a>
-        <a href="contacto.html" class="active">📞 Contacto</a>
+        <a href="index.html">Inicio</a>
+        <a href="sobre.html">Sobre</a>
+        <a href="politica.html">Políticas</a>
+        <a href="contacto.html" class="active">Contacto</a>
       </nav>
+      <button id="cartBtn">🛒 <span id="cartCount">0</span></button>
     </div>
   </header>
 
-  <section class="sub-hero">
-    <div class="container">
-      <h2>📞 Contacto</h2>
-      <p>Estamos aquí para ayudarte</p>
-    </div>
-  </section>
-
-  <main class="container page">
-    <h3>Canales directos</h3>
-
-    <div class="contact-cards">
-      <a href="https://wa.me/50432736285" target="_blank" class="contact-card">💬 WhatsApp: +504 3273-6285</a>
-      <a href="mailto:julioworks00@gmail.com" class="contact-card">📧 Email: julioworks00@gmail.com</a>
-    </div>
-
-    <h3>Formulario de contacto</h3>
-    <form class="opinion-form">
+  <main class="container">
+    <h2>Contacto</h2>
+    <form class="contact-form">
+      <label>Nombre</label>
       <input type="text" placeholder="Tu nombre" required>
+      <label>Email</label>
       <input type="email" placeholder="Tu correo" required>
-      <textarea placeholder="Tu mensaje" required></textarea>
-      <button type="submit" class="btn">📨 Enviar</button>
+      <label>Mensaje</label>
+      <textarea rows="5" placeholder="Escribe tu mensaje" required></textarea>
+      <button class="btn" type="submit">Enviar</button>
     </form>
   </main>
 
   <footer>
-    <p>© 2025 Mi Tienda Streaming</p>
+    <p>© 2025 MiTienda Streaming</p>
   </footer>
 </body>
 </html>
