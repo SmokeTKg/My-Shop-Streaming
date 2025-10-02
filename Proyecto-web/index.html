@@ -8,15 +8,15 @@
 </head>
 <body>
   <!-- HEADER -->
-  <header class="header">
-    <div class="logo">🎬 MiTienda <span>Streaming</span></div>
+  <header>
+    <div class="logo">🎬 <span>MiTienda Streaming</span></div>
     <nav>
       <a href="index.html">Inicio</a>
       <a href="sobre.html">Sobre</a>
       <a href="politica.html">Políticas</a>
       <a href="contacto.html">Contacto</a>
     </nav>
-    <div class="cart-icon" id="cartToggle">🛒 <span id="cartCount">0</span></div>
+    <div class="cart-icon" id="cart-btn">🛒 <span id="cart-count">0</span></div>
   </header>
 
   <!-- HERO -->
@@ -28,28 +28,24 @@
   <!-- CATÁLOGO -->
   <section class="catalogo">
     <h2>Catálogo</h2>
-    <div class="cards">
-      <div class="card"><h3>Netflix HD 4K</h3><p class="price">$10.99</p><button onclick="addToCart('Netflix HD 4K', 10.99)">Añadir</button></div>
-      <div class="card"><h3>Spotify Premium</h3><p class="price">$7.99</p><button onclick="addToCart('Spotify Premium', 7.99)">Añadir</button></div>
-      <div class="card"><h3>Crunchyroll</h3><p class="price">$6.99</p><button onclick="addToCart('Crunchyroll', 6.99)">Añadir</button></div>
-      <div class="card"><h3>Prime Video</h3><p class="price">$8.99</p><button onclick="addToCart('Prime Video', 8.99)">Añadir</button></div>
-      <div class="card"><h3>Disney+</h3><p class="price">$9.99</p><button onclick="addToCart('Disney+', 9.99)">Añadir</button></div>
-      <div class="card"><h3>HBO Max</h3><p class="price">$11.99</p><button onclick="addToCart('HBO Max', 11.99)">Añadir</button></div>
-      <div class="card"><h3>Apple TV+</h3><p class="price">$5.99</p><button onclick="addToCart('Apple TV+', 5.99)">Añadir</button></div>
-      <div class="card"><h3>Hulu</h3><p class="price">$7.49</p><button onclick="addToCart('Hulu', 7.49)">Añadir</button></div>
-      <div class="card"><h3>Star+</h3><p class="price">$8.49</p><button onclick="addToCart('Star+', 8.49)">Añadir</button></div>
-      <div class="card"><h3>Paramount+</h3><p class="price">$6.49</p><button onclick="addToCart('Paramount+', 6.49)">Añadir</button></div>
-    </div>
+    <div class="productos" id="productos"></div>
   </section>
 
   <!-- CARRITO -->
-  <aside id="cartPanel" class="cart-panel">
-    <h2>🛒 Tu Carrito</h2>
-    <ul id="cartItems"></ul>
-    <p class="total">Total: <span id="cartTotal">$0.00</span></p>
-    <button class="btn-empty" onclick="emptyCart()">Vaciar carrito</button>
-    <button class="btn-checkout" onclick="goToPayment()">Finalizar compra</button>
+  <aside class="carrito" id="carrito">
+    <h2>Tu Carrito</h2>
+    <ul id="cart-items"></ul>
+    <p><strong>Total:</strong> <span id="cart-total">$0.00</span></p>
+    <button id="vaciar-carrito" class="btn-danger">Vaciar carrito</button>
+    <button id="finalizar-compra" class="btn-primary">Finalizar compra</button>
+    <div class="metodos" id="metodos-pago">
+      <h3>Métodos de pago</h3>
+      <a href="https://wa.me/XXXXXXXXXXX" target="_blank" class="btn-whatsapp">💬 WhatsApp</a>
+      <button disabled class="btn-disabled">💳 Stripe (Próximamente)</button>
+      <button disabled class="btn-disabled">🌐 PayPal (Próximamente)</button>
+    </div>
   </aside>
 
-  <!-- PAGO -->
-  <secti
+  <script src="script.js"></script>
+</body>
+</html>
