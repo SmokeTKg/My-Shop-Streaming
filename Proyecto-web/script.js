@@ -1,32 +1,36 @@
 let cart = [];
-let total = 0;
+const cartCount = document.getElementById("cartCount");
+const cartPanel = document.getElementById("cartPanel");
+const cartItems = document.getElementById("cartItems");
+const cartTotal = document.getElementById("cartTotal");
+const paymentMethods = document.getElementById("paymentMethods");
 
-function addToCart(product, price) {
-  cart.push({ product, price });
-  total += price;
+document.getElementById("cartToggle").addEventListener("click", () => {
+  cartPanel.classList.toggle("active");
+});
+
+function addToCart(name, price) {
+  cart.push({ name, price });
   updateCart();
-  document.getElementById('cart').classList.remove('hidden'); // mostrar carrito
+  cartPanel.classList.add("active"); // abrir carrito al añadir
 }
 
 function updateCart() {
-  let cartItems = document.getElementById('cart-items');
   cartItems.innerHTML = "";
-  cart.forEach((item, index) => {
-    let li = document.createElement('li');
-    li.textContent = `${item.product} - $${item.price.toFixed(2)}`;
-    cartItems.appendChild(li);
+  let total = 0;
+  cart.forEach((item, i) => {
+    total += item.price;
+    cartItems.innerHTML += `<li>${item.name} - $${item.price.toFixed(2)}</li>`;
   });
-  document.getElementById('total').textContent = `Total: $${total.toFixed(2)}`;
-  document.getElementById('cart-count').textContent = cart.length;
+  cartCount.textContent = cart.length;
+  cartTotal.textContent = `$${total.toFixed(2)}`;
 }
 
-function clearCart() {
+function emptyCart() {
   cart = [];
-  total = 0;
   updateCart();
-  document.getElementById('cart').classList.add('hidden'); // ocultar carrito vacío
 }
 
 function showPayment() {
-  document.getElementById('payment-methods').classList.remove('hidden');
+  paymentMethods.style.display = "block";
 }

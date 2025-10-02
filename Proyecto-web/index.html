@@ -7,75 +7,76 @@
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <header>
-    <h1>🎬 MiTienda Streaming</h1>
+  <!-- HEADER -->
+  <header class="header">
+    <div class="logo">🎬 MiTienda <span>Streaming</span></div>
     <nav>
       <a href="index.html">Inicio</a>
       <a href="sobre.html">Sobre</a>
       <a href="politica.html">Políticas</a>
       <a href="contacto.html">Contacto</a>
     </nav>
-    <div class="cart-icon">
-      🛒 <span id="cart-count">0</span>
-    </div>
+    <div class="cart-icon" id="cartToggle">🛒 <span id="cartCount">0</span></div>
   </header>
 
-  <main>
+  <!-- HERO -->
+  <section class="hero">
+    <h1>Streaming sin límites</h1>
+    <p>Elige tu plataforma favorita al mejor precio.</p>
+  </section>
+
+  <!-- CATÁLOGO -->
+  <section class="catalogo">
     <h2>Catálogo</h2>
-    <div class="catalogo">
+    <div class="cards">
       <div class="card">
         <img src="img/netflix.png" alt="Netflix">
         <h3>Netflix HD 4K</h3>
         <p class="price">$10.99</p>
-        <button onclick="addToCart('Netflix HD 4K', 10.99)">Añadir</button>
+        <button class="btn-add" onclick="addToCart('Netflix HD 4K', 10.99)">Añadir</button>
       </div>
       <div class="card">
         <img src="img/spotify.png" alt="Spotify">
         <h3>Spotify Premium</h3>
         <p class="price">$7.99</p>
-        <button onclick="addToCart('Spotify Premium', 7.99)">Añadir</button>
+        <button class="btn-add" onclick="addToCart('Spotify Premium', 7.99)">Añadir</button>
       </div>
       <div class="card">
         <img src="img/crunchyroll.png" alt="Crunchyroll">
         <h3>Crunchyroll</h3>
         <p class="price">$6.99</p>
-        <button onclick="addToCart('Crunchyroll', 6.99)">Añadir</button>
+        <button class="btn-add" onclick="addToCart('Crunchyroll', 6.99)">Añadir</button>
       </div>
       <div class="card">
         <img src="img/prime.png" alt="Prime Video">
         <h3>Prime Video</h3>
         <p class="price">$8.99</p>
-        <button onclick="addToCart('Prime Video', 8.99)">Añadir</button>
+        <button class="btn-add" onclick="addToCart('Prime Video', 8.99)">Añadir</button>
       </div>
       <div class="card">
         <img src="img/disney.png" alt="Disney+">
         <h3>Disney+</h3>
         <p class="price">$9.99</p>
-        <button onclick="addToCart('Disney+', 9.99)">Añadir</button>
+        <button class="btn-add" onclick="addToCart('Disney+', 9.99)">Añadir</button>
       </div>
     </div>
+  </section>
 
-    <!-- 🛒 Carrito oculto al inicio -->
-    <section id="cart" class="hidden">
-      <h2>Tu Carrito</h2>
-      <ul id="cart-items"></ul>
-      <p id="total">Total: $0.00</p>
-      <button class="btn-red" onclick="clearCart()">Vaciar carrito</button>
-      <button class="btn-blue" onclick="showPayment()">Finalizar compra</button>
+  <!-- CARRITO (SLIDE) -->
+  <aside id="cartPanel" class="cart-panel">
+    <h2>🛒 Tu Carrito</h2>
+    <ul id="cartItems"></ul>
+    <p class="total">Total: <span id="cartTotal">$0.00</span></p>
+    <button class="btn-empty" onclick="emptyCart()">Vaciar carrito</button>
+    <button class="btn-checkout" onclick="showPayment()">Finalizar compra</button>
 
-      <!-- Métodos de pago (ocultos al inicio) -->
-      <div id="payment-methods" class="hidden">
-        <h3>Métodos de pago</h3>
-        <button class="btn-green">💬 WhatsApp</button>
-        <button class="btn-gray">💳 Stripe (Próximamente)</button>
-        <button class="btn-gray">🌍 PayPal (Próximamente)</button>
-      </div>
-    </section>
-  </main>
-
-  <footer>
-    <p>© 2025 MiTienda Streaming. Todos los derechos reservados.</p>
-  </footer>
+    <div id="paymentMethods" class="payment">
+      <h3>Métodos de pago</h3>
+      <button class="btn-whatsapp">💬 WhatsApp</button>
+      <button class="btn-disabled">💳 Stripe (Próximamente)</button>
+      <button class="btn-disabled">🌐 PayPal (Próximamente)</button>
+    </div>
+  </aside>
 
   <script src="script.js"></script>
 </body>
