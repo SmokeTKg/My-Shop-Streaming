@@ -1,4 +1,4 @@
-// Productos de streaming
+// Productos
 const products = [
   { id: 1, name: "Netflix Premium (1 mes)", price: 5.99 },
   { id: 2, name: "Spotify Premium (1 mes)", price: 3.99 },
@@ -17,7 +17,7 @@ let cart = [];
 // Render productos
 products.forEach(p => {
   const card = document.createElement("div");
-  card.classList.add("product-card");
+  card.classList.add("product-card", "fade-in");
   card.innerHTML = `
     <h3>${p.name}</h3>
     <div class="price">$${p.price.toFixed(2)}</div>
@@ -26,7 +26,7 @@ products.forEach(p => {
   productsGrid.appendChild(card);
 });
 
-// Agregar al carrito
+// Carrito
 productsGrid.addEventListener("click", e => {
   if (e.target.tagName === "BUTTON") {
     const id = parseInt(e.target.dataset.id);
@@ -36,7 +36,6 @@ productsGrid.addEventListener("click", e => {
   }
 });
 
-// Actualizar carrito
 function updateCart() {
   cartItemsContainer.innerHTML = "";
   let total = 0;
@@ -59,30 +58,42 @@ document.getElementById("close-cart").addEventListener("click", () => {
   cartPanel.classList.remove("active");
 });
 
-// Checkout (simulado)
+// Checkout
 document.getElementById("checkout").addEventListener("click", () => {
-  alert("Gracias por tu compra ✅\nEn breve recibirás tu cuenta en tu correo.");
+  alert("✅ Gracias por tu compra. Recibirás tus cuentas en tu correo.");
   cart = [];
   updateCart();
   cartPanel.classList.remove("active");
 });
 
-// Formulario de contacto
+// Formulario
 const contactForm = document.getElementById("contact-form");
 contactForm.addEventListener("submit", e => {
   e.preventDefault();
-  const name = document.getElementById("name").value.trim();
-  const email = document.getElementById("email").value.trim();
-  const message = document.getElementById("message").value.trim();
   const result = document.getElementById("form-result");
-
-  if (!name || !email || !message) {
-    result.textContent = "⚠️ Por favor, completa todos los campos.";
-    return;
-  }
   result.textContent = "✅ Mensaje enviado correctamente. Te responderemos pronto.";
   contactForm.reset();
 });
 
 // Año dinámico
 document.getElementById("year").textContent = new Date().getFullYear();
+
+// Animaciones on-scroll
+const faders = document.querySelectorAll('.fade-in');
+const appearOptions = { threshold: 0.2 };
+const appearOnScroll = new IntersectionObserver((entries, observer) => {
+  entries.forEach(entry => {
+    if (!entry.isIntersecting) return;
+    entry.target.classList.add("visible");
+    observer.unobserve(entry.target);
+  });
+}, appearOptions);
+
+faders.forEach(fader => {
+  appearOnScroll.observe(fader);
+});
+
+// Animación inicial al cargar
+window.addEventListener("load", () => {
+  document.querySelectorAll(".fade-in").forEach(el => el.classList.add("visible"));
+});
