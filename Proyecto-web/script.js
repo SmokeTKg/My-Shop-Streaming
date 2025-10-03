@@ -1,82 +1,61 @@
-// Productos
-const products = [
-  { id: 1, name: "Netflix Premium (1 mes)", price: 5.99 },
-  { id: 2, name: "Spotify Premium (1 mes)", price: 3.99 },
-  { id: 3, name: "Disney+ (1 mes)", price: 4.99 },
-  { id: 4, name: "Amazon Prime Video (1 mes)", price: 4.50 }
-];
+const cart = [];
+const cartBtn = document.getElementById("cart-btn");
+const cartSidebar = document.getElementById("cart-sidebar");
+const closeCartBtn = document.getElementById("close-cart");
+const cartItems = document.getElementById("cart-items");
+const totalEl = document.getElementById("total");
+const clearCartBtn = document.getElementById("clear-cart");
 
-const productsGrid = document.getElementById("products-grid");
-const cartPanel = document.getElementById("cart-panel");
-const cartItemsContainer = document.getElementById("cart-items");
-const cartTotalEl = document.getElementById("cart-total");
-const cartCountEl = document.getElementById("cart-count");
+// Modal de pago
+const paymentModal = document.getElementById("payment-modal");
+const payTotal = document.getElementById("pay-total");
+const whatsappPay = document.getElementById("whatsapp-pay");
+const closePayment = document.getElementById("close-payment");
 
-let cart = [];
+// Mostrar / ocultar carrito
+cartBtn.addEventListener("click", () => cartSidebar.classList.add("active"));
+closeCartBtn.addEventListener("click", () => cartSidebar.classList.remove("active"));
 
-// Render productos
-products.forEach(p => {
-  const card = document.createElement("div");
-  card.classList.add("product-card", "fade-in");
-  card.innerHTML = `
-    <h3>${p.name}</h3>
-    <div class="price">$${p.price.toFixed(2)}</div>
-    <button class="btn primary" data-id="${p.id}">Agregar</button>
-  `;
-  productsGrid.appendChild(card);
-});
+// Agregar productos
+document.querySelectorAll(".add-btn").forEach(btn => {
+  btn.addEventListener("click", () => {
+    const name = btn.dataset.name;
+    const price = parseFloat(btn.dataset.price);
 
-// Agregar producto
-productsGrid.addEventListener("click", e => {
-  if (e.target.tagName === "BUTTON") {
-    const id = parseInt(e.target.dataset.id);
-    const product = products.find(p => p.id === id);
-    cart.push(product);
+    cart.push({ name, price });
     updateCart();
-    cartPanel.classList.add("active"); // abre carrito automáticamente
-  }
+    cartSidebar.classList.add("active"); // mostrar carrito al agregar
+  });
 });
 
 // Actualizar carrito
 function updateCart() {
-  cartItemsContainer.innerHTML = "";
+  cartItems.innerHTML = "";
   let total = 0;
   cart.forEach((item, index) => {
     total += item.price;
-    const div = document.createElement("div");
-    div.classList.add("cart-item");
-    div.innerHTML = `
-      <span>${item.name}</span>
-      <span>$${item.price.toFixed(2)}</span>
-      <button data-index="${index}">Eliminar</button>
+    const li = document.createElement("li");
+    li.innerHTML = `
+      ${item.name} - $${item.price.toFixed(2)}
+      <button class="remove-btn" data-index="${index}">Eliminar</button>
     `;
-    cartItemsContainer.appendChild(div);
+    cartItems.appendChild(li);
   });
-  cartTotalEl.textContent = `$${total.toFixed(2)}`;
-  cartCountEl.textContent = cart.length;
+  totalEl.textContent = `$${total.toFixed(2)}`;
+
+  document.querySelectorAll(".remove-btn").forEach(btn => {
+    btn.addEventListener("click", () => {
+      const i = btn.dataset.index;
+      cart.splice(i, 1);
+      updateCart();
+    });
+  });
 }
 
-// Eliminar un producto
-cartItemsContainer.addEventListener("click", e => {
-  if (e.target.tagName === "BUTTON") {
-    const index = e.target.dataset.index;
-    cart.splice(index, 1);
-    updateCart();
-  }
-});
-
 // Vaciar carrito
-document.getElementById("empty-cart").addEventListener("click", () => {
-  cart = [];
+clearCartBtn.addEventListener("click", () => {
+  cart.length = 0;
   updateCart();
-});
-
-// Toggle carrito
-document.getElementById("cart-toggle").addEventListener("click", () => {
-  cartPanel.classList.add("active");
-});
-document.getElementById("close-cart").addEventListener("click", () => {
-  cartPanel.classList.remove("active");
 });
 
 // Checkout
@@ -85,40 +64,18 @@ document.getElementById("checkout").addEventListener("click", () => {
     alert("Tu carrito está vacío 🛒");
     return;
   }
-  alert("✅ Gracias por tu compra. Recibirás tus cuentas en tu correo.");
-  cart = [];
-  updateCart();
-  cartPanel.classList.remove("active");
+
+  let total = cart.reduce((sum, item) => sum + item.price, 0).toFixed(2);
+  payTotal.textContent = `$${total}`;
+
+  // WhatsApp con mensaje automático
+  let msg = encodeURIComponent(`Hola 👋 quiero comprar mis cuentas. Total: $${total}`);
+  whatsappPay.href = `https://wa.me/50499999999?text=${msg}`; // <-- Cambia tu número aquí
+
+  paymentModal.classList.add("active");
 });
 
-// Formulario
-const contactForm = document.getElementById("contact-form");
-contactForm.addEventListener("submit", e => {
-  e.preventDefault();
-  const result = document.getElementById("form-result");
-  result.textContent = "✅ Mensaje enviado correctamente. Te responderemos pronto.";
-  contactForm.reset();
-});
-
-// Año dinámico
-document.getElementById("year").textContent = new Date().getFullYear();
-
-// Animaciones on-scroll
-const faders = document.querySelectorAll('.fade-in');
-const appearOptions = { threshold: 0.2 };
-const appearOnScroll = new IntersectionObserver((entries, observer) => {
-  entries.forEach(entry => {
-    if (!entry.isIntersecting) return;
-    entry.target.classList.add("visible");
-    observer.unobserve(entry.target);
-  });
-}, appearOptions);
-
-faders.forEach(fader => {
-  appearOnScroll.observe(fader);
-});
-
-// Animación inicial al cargar
-window.addEventListener("load", () => {
-  document.querySelectorAll(".fade-in").forEach(el => el.classList.add("visible"));
+// Cerrar modal de pago
+closePayment.addEventListener("click", () => {
+  paymentModal.classList.remove("active");
 });

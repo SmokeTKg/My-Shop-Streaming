@@ -1,90 +1,64 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>VivaStore — Streaming y más</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VivaStore</title>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <!-- Navbar -->
-  <header class="navbar">
-    <div class="container nav-inner">
-      <a class="brand" href="#">Viva<span>Store</span></a>
-      <nav class="nav-links">
-        <a href="#inicio">Inicio</a>
-        <a href="#productos">Planes</a>
-        <a href="#contacto">Contacto</a>
-      </nav>
-      <div class="nav-actions">
-        <button class="btn icon-btn" id="cart-toggle">
-          🛒 <span id="cart-count" class="cart-badge">0</span>
-        </button>
-      </div>
-    </div>
+  <header>
+    <h1><span class="logo-blue">Viva</span><span class="logo-red">Store</span></h1>
+    <button id="cart-btn">🛒 Carrito</button>
   </header>
 
-  <!-- Hero -->
-  <section id="inicio" class="hero fade-in">
-    <div class="container hero-inner">
-      <div class="hero-text">
-        <h1>Streaming al mejor precio</h1>
-        <p>Netflix, Spotify, Disney+, Amazon Prime y más.<br> Vendedor autorizado ✅</p>
-        <div class="hero-cta">
-          <a href="#productos" class="btn primary">Ver planes</a>
-        </div>
+  <main>
+    <h2>Planes disponibles</h2>
+    <div class="products">
+      <div class="card">
+        <h3>Netflix Premium (1 mes)</h3>
+        <p class="price">$5.99</p>
+        <button class="add-btn" data-name="Netflix Premium (1 mes)" data-price="5.99">Agregar</button>
+      </div>
+      <div class="card">
+        <h3>Spotify Premium (1 mes)</h3>
+        <p class="price">$3.99</p>
+        <button class="add-btn" data-name="Spotify Premium (1 mes)" data-price="3.99">Agregar</button>
+      </div>
+      <div class="card">
+        <h3>Disney+ (1 mes)</h3>
+        <p class="price">$4.99</p>
+        <button class="add-btn" data-name="Disney+ (1 mes)" data-price="4.99">Agregar</button>
       </div>
     </div>
-  </section>
+  </main>
 
-  <!-- Productos -->
-  <section id="productos" class="products fade-in">
-    <div class="container">
-      <h2 class="section-title">Planes disponibles</h2>
-      <div id="products-grid" class="grid"></div>
-    </div>
-  </section>
-
-  <!-- Carrito -->
-  <aside id="cart-panel" class="cart-panel" aria-hidden="true">
+  <!-- Sidebar Carrito -->
+  <aside id="cart-sidebar">
     <div class="cart-header">
       <h3>Tu carrito</h3>
-      <button class="btn icon-btn" id="close-cart">✕</button>
+      <button id="close-cart">✖</button>
     </div>
-    <div id="cart-items" class="cart-items"></div>
+    <ul id="cart-items"></ul>
     <div class="cart-footer">
-      <div class="cart-total">Total: <strong id="cart-total">$0.00</strong></div>
-      <div class="cart-actions">
-        <button class="btn" id="empty-cart">Vaciar</button>
-        <button class="btn primary" id="checkout">Pagar ahora</button>
-      </div>
+      <p>Total: <strong id="total">$0.00</strong></p>
+      <button id="clear-cart" class="btn">Vaciar</button>
+      <button id="checkout" class="btn primary">Pagar ahora</button>
     </div>
   </aside>
 
-  <!-- Contacto -->
-  <section id="contacto" class="contact fade-in">
-    <div class="container">
-      <h2 class="section-title">Contacto</h2>
-      <p>¿Tienes dudas? Escríbenos y recibe atención personalizada.</p>
-      <form id="contact-form" class="contact-form" novalidate>
-        <input type="text" id="name" name="name" placeholder="Tu nombre" required>
-        <input type="email" id="email" name="email" placeholder="Tu correo" required>
-        <textarea id="message" name="message" placeholder="Escribe tu mensaje..." required></textarea>
-        <button class="btn primary" type="submit">Enviar</button>
-        <div id="form-result" class="form-result"></div>
-      </form>
+  <!-- Modal Métodos de Pago -->
+  <div id="payment-modal" class="modal" aria-hidden="true">
+    <div class="modal-content">
+      <h3>Elige tu método de pago</h3>
+      <p>Total: <strong id="pay-total">$0.00</strong></p>
+      <div class="payment-options">
+        <a id="whatsapp-pay" target="_blank" class="btn primary">💬 Pagar por WhatsApp</a>
+        <button class="btn" disabled>💳 Tarjeta (Stripe próximamente)</button>
+      </div>
+      <button class="btn close-modal" id="close-payment">Cancelar</button>
     </div>
-  </section>
-
-  <!-- Footer -->
-  <footer class="footer fade-in">
-    <div class="container footer-inner">
-      <p>© <span id="year"></span> VivaStore. Vendedor autorizado de servicios digitales.</p>
-    </div>
-  </footer>
+  </div>
 
   <script src="script.js"></script>
 </body>
