@@ -3,63 +3,102 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>VivaStore</title>
+  <title>VivaStore - Streaming Premium</title>
   <link rel="stylesheet" href="styles.css">
+  <script defer src="script.js"></script>
 </head>
 <body>
-  <header>
-    <h1><span class="logo-blue">Viva</span><span class="logo-red">Store</span></h1>
-    <button id="cart-btn">🛒 Carrito</button>
-  </header>
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <div class="container">
+      <div class="logo">Viva<span>Store</span></div>
+      <div class="nav-links">
+        <a href="#planes">Planes</a>
+        <a href="#contacto">Contacto</a>
+      </div>
+      <button class="btn-cart" id="cart-btn">🛒 Carrito <span id="cart-count">0</span></button>
+    </div>
+  </nav>
 
-  <main>
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-content">
+      <h1>Streaming Premium al mejor precio</h1>
+      <p>Compra tus cuentas de Netflix, Spotify, Disney+ y más con la mejor seguridad y soporte garantizado.</p>
+      <button class="btn-primary" onclick="document.querySelector('#planes').scrollIntoView({behavior:'smooth'})">
+        Ver planes
+      </button>
+    </div>
+  </section>
+
+  <!-- PLANES -->
+  <section class="planes" id="planes">
     <h2>Planes disponibles</h2>
-    <div class="products">
+    <div class="grid">
       <div class="card">
         <h3>Netflix Premium (1 mes)</h3>
         <p class="price">$5.99</p>
-        <button class="add-btn" data-name="Netflix Premium (1 mes)" data-price="5.99">Agregar</button>
+        <button class="btn-add primary" data-name="Netflix Premium (1 mes)" data-price="5.99">Agregar</button>
       </div>
       <div class="card">
         <h3>Spotify Premium (1 mes)</h3>
         <p class="price">$3.99</p>
-        <button class="add-btn" data-name="Spotify Premium (1 mes)" data-price="3.99">Agregar</button>
+        <button class="btn-add primary" data-name="Spotify Premium (1 mes)" data-price="3.99">Agregar</button>
       </div>
       <div class="card">
         <h3>Disney+ (1 mes)</h3>
         <p class="price">$4.99</p>
-        <button class="add-btn" data-name="Disney+ (1 mes)" data-price="4.99">Agregar</button>
+        <button class="btn-add primary" data-name="Disney+ (1 mes)" data-price="4.99">Agregar</button>
       </div>
     </div>
-  </main>
+  </section>
 
-  <!-- Sidebar Carrito -->
-  <aside id="cart-sidebar">
+  <!-- CONTACTO -->
+  <section class="contacto" id="contacto">
+    <h2>Contáctanos</h2>
+    <form id="contact-form">
+      <input type="text" placeholder="Tu nombre" required>
+      <input type="email" placeholder="Tu correo" required>
+      <textarea placeholder="Tu mensaje"></textarea>
+      <button type="submit" class="btn-primary">Enviar</button>
+    </form>
+    <div class="form-result"></div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <p>© 2025 VivaStore. Todos los derechos reservados.</p>
+  </footer>
+
+  <!-- PANEL DEL CARRITO -->
+  <div id="cart-panel">
     <div class="cart-header">
       <h3>Tu carrito</h3>
       <button id="close-cart">✖</button>
     </div>
-    <ul id="cart-items"></ul>
+    <div class="cart-items"></div>
     <div class="cart-footer">
-      <p>Total: <strong id="total">$0.00</strong></p>
-      <button id="clear-cart" class="btn">Vaciar</button>
-      <button id="checkout" class="btn primary">Pagar ahora</button>
-    </div>
-  </aside>
-
-  <!-- Modal Métodos de Pago -->
-  <div id="payment-modal" class="modal" aria-hidden="true">
-    <div class="modal-content">
-      <h3>Elige tu método de pago</h3>
-      <p>Total: <strong id="pay-total">$0.00</strong></p>
-      <div class="payment-options">
-        <a id="whatsapp-pay" target="_blank" class="btn primary">💬 Pagar por WhatsApp</a>
-        <button class="btn" disabled>💳 Tarjeta (Stripe próximamente)</button>
+      <p>Total: <span id="cart-total">$0.00</span></p>
+      <div class="cart-actions">
+        <button id="clear-cart" class="btn">Vaciar</button>
+        <button id="checkout" class="btn-primary">Pagar ahora</button>
       </div>
-      <button class="btn close-modal" id="close-payment">Cancelar</button>
     </div>
   </div>
 
-  <script src="script.js"></script>
+  <!-- MODAL DE PAGO -->
+  <div id="payment-modal" class="modal">
+    <div class="modal-content">
+      <h3>Elige tu método de pago</h3>
+      <div class="payment-options">
+        <button class="btn-primary">💳 Tarjeta (próximamente)</button>
+        <button class="btn-disabled">💰 Stripe (próximamente)</button>
+        <a class="btn-primary" href="https://wa.me/50499999999?text=Hola%20quiero%20comprar%20mi%20cuenta" target="_blank">
+          📲 WhatsApp
+        </a>
+      </div>
+      <button id="close-modal" class="btn">Cerrar</button>
+    </div>
+  </div>
 </body>
 </html>

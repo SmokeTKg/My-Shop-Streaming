@@ -1,81 +1,94 @@
-const cart = [];
-const cartBtn = document.getElementById("cart-btn");
-const cartSidebar = document.getElementById("cart-sidebar");
-const closeCartBtn = document.getElementById("close-cart");
-const cartItems = document.getElementById("cart-items");
-const totalEl = document.getElementById("total");
-const clearCartBtn = document.getElementById("clear-cart");
+// ===============================
+// script.js — lógica de VivaStore
+// ===============================
 
-// Modal de pago
-const paymentModal = document.getElementById("payment-modal");
-const payTotal = document.getElementById("pay-total");
-const whatsappPay = document.getElementById("whatsapp-pay");
-const closePayment = document.getElementById("close-payment");
+document.addEventListener("DOMContentLoaded", () => {
+  const cartBtn = document.getElementById("cart-btn");
+  const cartPanel = document.getElementById("cart-panel");
+  const closeCartBtn = document.getElementById("close-cart");
+  const cartItemsContainer = document.querySelector(".cart-items");
+  const cartCount = document.getElementById("cart-count");
+  const cartTotal = document.getElementById("cart-total");
+  const clearCartBtn = document.getElementById("clear-cart");
+  const checkoutBtn = document.getElementById("checkout");
+  const paymentModal = document.getElementById("payment-modal");
+  const closeModalBtn = document.getElementById("close-modal");
 
-// Mostrar / ocultar carrito
-cartBtn.addEventListener("click", () => cartSidebar.classList.add("active"));
-closeCartBtn.addEventListener("click", () => cartSidebar.classList.remove("active"));
+  let cart = [];
 
-// Agregar productos
-document.querySelectorAll(".add-btn").forEach(btn => {
-  btn.addEventListener("click", () => {
-    const name = btn.dataset.name;
-    const price = parseFloat(btn.dataset.price);
-
-    cart.push({ name, price });
-    updateCart();
-    cartSidebar.classList.add("active"); // mostrar carrito al agregar
+  // Abrir / cerrar carrito
+  cartBtn.addEventListener("click", () => {
+    cartPanel.classList.add("active");
   });
-});
-
-// Actualizar carrito
-function updateCart() {
-  cartItems.innerHTML = "";
-  let total = 0;
-  cart.forEach((item, index) => {
-    total += item.price;
-    const li = document.createElement("li");
-    li.innerHTML = `
-      ${item.name} - $${item.price.toFixed(2)}
-      <button class="remove-btn" data-index="${index}">Eliminar</button>
-    `;
-    cartItems.appendChild(li);
+  closeCartBtn.addEventListener("click", () => {
+    cartPanel.classList.remove("active");
   });
-  totalEl.textContent = `$${total.toFixed(2)}`;
 
-  document.querySelectorAll(".remove-btn").forEach(btn => {
+  // Agregar producto
+  document.querySelectorAll(".btn-add").forEach(btn => {
     btn.addEventListener("click", () => {
-      const i = btn.dataset.index;
-      cart.splice(i, 1);
+      const name = btn.dataset.name;
+      const price = parseFloat(btn.dataset.price);
+      cart.push({ name, price });
       updateCart();
+      cartPanel.classList.add("active");
     });
   });
-}
 
-// Vaciar carrito
-clearCartBtn.addEventListener("click", () => {
-  cart.length = 0;
-  updateCart();
-});
+  // Vaciar carrito
+  clearCartBtn.addEventListener("click", () => {
+    cart = [];
+    updateCart();
+  });
 
-// Checkout
-document.getElementById("checkout").addEventListener("click", () => {
-  if (cart.length === 0) {
-    alert("Tu carrito está vacío 🛒");
-    return;
+  // Procesar compra
+  checkoutBtn.addEventListener("click", () => {
+    if(cart.length === 0) {
+      alert("Tu carrito está vacío.");
+      return;
+    }
+    paymentModal.classList.add("active");
+  });
+  closeModalBtn.addEventListener("click", () => {
+    paymentModal.classList.remove("active");
+  });
+
+  // Actualizar carrito
+  function updateCart() {
+    cartItemsContainer.innerHTML = "";
+    let total = 0;
+
+    cart.forEach((item, index) => {
+      total += item.price;
+      const div = document.createElement("div");
+      div.classList.add("cart-item");
+      div.innerHTML = `
+        <div class="meta">${item.name} - $${item.price.toFixed(2)}</div>
+        <button class="remove" data-index="${index}">Eliminar</button>
+      `;
+      cartItemsContainer.appendChild(div);
+    });
+
+    cartCount.textContent = cart.length;
+    cartTotal.textContent = `$${total.toFixed(2)}`;
+
+    // Eliminar producto individual
+    document.querySelectorAll(".remove").forEach(btn => {
+      btn.addEventListener("click", () => {
+        const index = btn.dataset.index;
+        cart.splice(index, 1);
+        updateCart();
+      });
+    });
   }
 
-  let total = cart.reduce((sum, item) => sum + item.price, 0).toFixed(2);
-  payTotal.textContent = `$${total}`;
+  // Contacto (simulado)
+  const contactForm = document.getElementById("contact-form");
+  const result = document.querySelector(".form-result");
 
-  // WhatsApp con mensaje automático
-  let msg = encodeURIComponent(`Hola 👋 quiero comprar mis cuentas. Total: $${total}`);
-  whatsappPay.href = `https://wa.me/50499999999?text=${msg}`; // <-- Cambia tu número aquí
-
-  paymentModal.classList.add("active");
-});
-
-// Cerrar modal de pago
-closePayment.addEventListener("click", () => {
-  paymentModal.classList.remove("active");
+  contactForm.addEventListener("submit", (e) => {
+    e.preventDefault();
+    result.textContent = "✅ Gracias por tu mensaje. Te responderemos pronto.";
+    contactForm.reset();
+  });
 });
