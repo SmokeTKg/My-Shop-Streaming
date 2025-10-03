@@ -33,7 +33,7 @@ productsGrid.addEventListener("click", e => {
     const product = products.find(p => p.id === id);
     cart.push(product);
     updateCart();
-    cartPanel.classList.add("active"); // mostrar carrito automático
+    cartPanel.classList.add("active"); // abre carrito automáticamente
   }
 });
 
