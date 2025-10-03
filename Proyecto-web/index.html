@@ -1,88 +1,15 @@
-<!doctype html>
-<html lang="es">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>VivaStore — Streaming y más</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css">
-</head>
-<body>
-  <!-- Navbar -->
-  <header class="navbar">
-    <div class="container nav-inner">
-      <a class="brand" href="#">Viva<span>Store</span></a>
-      <nav class="nav-links">
-        <a href="#inicio">Inicio</a>
-        <a href="#productos">Planes</a>
-        <a href="#contacto">Contacto</a>
-      </nav>
-      <div class="nav-actions">
-        <button class="btn icon-btn" id="cart-toggle">🛒 <span id="cart-count">0</span></button>
-      </div>
-    </div>
-  </header>
-
-  <!-- Hero -->
-  <section id="inicio" class="hero fade-in">
-    <div class="container hero-inner">
-      <div class="hero-text">
-        <h1>Streaming al mejor precio</h1>
-        <p>Netflix, Spotify, Disney+, Amazon Prime y más. <br> Vendedor autorizado ✅</p>
-        <div class="hero-cta">
-          <a href="#productos" class="btn primary">Ver planes</a>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Productos -->
-  <section id="productos" class="products fade-in">
-    <div class="container">
-      <h2 class="section-title">Planes disponibles</h2>
-      <div id="products-grid" class="grid">
-        <!-- Productos se generan desde JS -->
-      </div>
-    </div>
-  </section>
-
-  <!-- Carrito -->
-  <aside id="cart-panel" class="cart-panel" aria-hidden="true">
-    <div class="cart-header">
-      <h3>Tu carrito</h3>
-      <button class="btn icon-btn" id="close-cart">✕</button>
-    </div>
-    <div id="cart-items" class="cart-items"></div>
-    <div class="cart-footer">
-      <div class="cart-total">Total: <strong id="cart-total">$0.00</strong></div>
+<!-- Carrito -->
+<aside id="cart-panel" class="cart-panel" aria-hidden="true">
+  <div class="cart-header">
+    <h3>Tu carrito</h3>
+    <button class="btn icon-btn" id="close-cart">✕</button>
+  </div>
+  <div id="cart-items" class="cart-items"></div>
+  <div class="cart-footer">
+    <div class="cart-total">Total: <strong id="cart-total">$0.00</strong></div>
+    <div class="cart-actions">
+      <button class="btn" id="empty-cart">Vaciar</button>
       <button class="btn primary" id="checkout">Pagar ahora</button>
     </div>
-  </aside>
-
-  <!-- Contacto -->
-  <section id="contacto" class="contact fade-in">
-    <div class="container">
-      <h2 class="section-title">Contacto</h2>
-      <p>¿Tienes dudas? Escríbenos y recibe atención personalizada.</p>
-      <form id="contact-form" class="contact-form" novalidate>
-        <input type="text" id="name" name="name" placeholder="Tu nombre" required>
-        <input type="email" id="email" name="email" placeholder="Tu correo" required>
-        <textarea id="message" name="message" placeholder="Escribe tu mensaje..." required></textarea>
-        <button class="btn primary" type="submit">Enviar</button>
-        <div id="form-result" class="form-result"></div>
-      </form>
-    </div>
-  </section>
-
-  <!-- Footer -->
-  <footer class="footer fade-in">
-    <div class="container footer-inner">
-      <p>© <span id="year"></span> VivaStore. Vendedor autorizado de servicios digitales.</p>
-    </div>
-  </footer>
-
-  <script src="script.js"></script>
-</body>
-</html>
+  </div>
+</aside>
