@@ -1,56 +1,45 @@
 <!doctype html>
 <html lang="es">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Contacto | VivaStore</title>
-
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css">
-  <script defer src="script.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./styles.css">
 </head>
 <body>
-  <header class="site-header">
-    <div class="container header-inner">
-      <a class="brand" href="index.html">Viva<span>Store</span></a>
-      <nav class="nav">
-        <a href="index.html#planes">Planes</a>
-        <a href="sobre.html">Sobre nosotros</a>
-      </nav>
-    </div>
-  </header>
+<header class="site-header">
+  <div class="container header-inner">
+    <a class="brand" href="index.html">Viva<span>Store</span></a>
+    <nav class="nav">
+      <a href="index.html#productos">Productos</a>
+      <a href="index.html#reseñas">Reseñas</a>
+      <a href="#contacto">Contacto</a>
+    </nav>
+    <a class="icon-btn" href="index.html#productos">🛒</a>
+  </div>
+</header>
 
-  <main class="container" style="padding: 4rem 0;">
-    <h1>Contacto</h1>
-    <p>¿Tienes dudas o necesitas ayuda? Escríbenos, estamos para asistirte.</p>
+<main class="contact-page container">
+  <h1>Contacto</h1>
+  <form id="contact-form" class="card-flat">
+    <label class="lbl">Nombre</label>
+    <input id="c-name" type="text" required>
+    <label class="lbl">Correo</label>
+    <input id="c-email" type="email" required>
+    <label class="lbl">Mensaje</label>
+    <textarea id="c-msg" rows="5" required></textarea>
+    <button type="submit" class="btn btn-primary">Enviar</button>
+    <p id="contact-feedback" class="feedback"></p>
+  </form>
+</main>
 
-    <form id="contact-form" style="margin-top:2rem; max-width:600px;">
-      <label for="nombre">Nombre</label>
-      <input type="text" id="nombre" name="nombre" placeholder="Tu nombre" required>
+<footer class="site-footer">
+  <div class="container">
+    <p>© 2025 VivaStore.</p>
+  </div>
+</footer>
 
-      <label for="email">Correo electrónico</label>
-      <input type="email" id="email" name="email" placeholder="tucorreo@ejemplo.com" required>
-
-      <label for="mensaje">Mensaje</label>
-      <textarea id="mensaje" name="mensaje" rows="5" placeholder="Escribe tu mensaje..." required></textarea>
-
-      <button type="submit" class="btn btn-primary" style="margin-top:1rem;">Enviar mensaje</button>
-    </form>
-  </main>
-
-  <footer class="site-footer">
-    <div class="container">
-      <p>© 2025 VivaStore. Todos los derechos reservados.</p>
-    </div>
-  </footer>
-
-  <script>
-    // Simple simulación de envío de formulario
-    document.getElementById("contact-form").addEventListener("submit", e => {
-      e.preventDefault();
-      showNotification("Mensaje enviado ✅ ¡Gracias por contactarnos!");
-      e.target.reset();
-    });
-  </script>
+<script src="./script.js"></script>
 </body>
 </html>
