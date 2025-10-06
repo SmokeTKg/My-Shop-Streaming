@@ -1,6 +1,4 @@
-/* ==============================
-   VivaStore — Minimal PRO (opiniones + contacto)
-   ============================== */
+/* VivaStore — Minimal PRO (opiniones blog + contacto fijo) */
 :root{
   --bg:#0c0d10; --bg2:#111216;
   --text:#f5f6f7; --muted:#b8bcc6;
@@ -17,9 +15,9 @@ a{color:inherit;text-decoration:none}
 img{max-width:100%;display:block;border-radius:10px}
 button{border:none;background:none;color:inherit;cursor:pointer;transition:var(--tr);font:inherit}
 .container{width:92%;max-width:var(--max);margin:0 auto}
-.section-wrap.narrow{max-width:980px;margin:0 auto}
+.section-wrap.narrow{max-width:1000px;margin:0 auto}
 
-/* ===== Header/Hero (igual que antes) ===== */
+/* Header/Hero */
 .site-header{position:sticky;top:0;z-index:50;background:rgba(14,15,20,.9);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
 .header-inner{display:flex;align-items:center;justify-content:space-between;padding:14px 0}
 .brand{font-size:1.5rem;font-weight:800}
@@ -35,7 +33,7 @@ button{border:none;background:none;color:inherit;cursor:pointer;transition:var(-
 .hero h1{font-size:2.4rem;line-height:1.12;margin-bottom:10px}
 .hero p{color:var(--muted);font-size:1.06rem;margin-bottom:16px}
 
-/* ===== Botones ===== */
+/* Botones */
 .btn{display:inline-block;background:#2b2e3a;color:#fff;padding:.8rem 1.05rem;border-radius:12px;font-weight:800;letter-spacing:.3px;text-transform:uppercase;box-shadow:0 4px 14px rgba(0,0,0,.25)}
 .btn:hover{background:#323548;transform:translateY(-1px)}
 .btn:active{background:var(--accent);transform:translateY(0)}
@@ -44,7 +42,7 @@ button{border:none;background:none;color:inherit;cursor:pointer;transition:var(-
 .btn-ghost:hover{background:#1b1f2e}
 .form-actions{display:flex;justify-content:flex-end;margin-top:8px}
 
-/* ===== Productos (sin tocar) ===== */
+/* Productos */
 .productos-section{padding:40px 0 70px}
 .productos-section h2{text-align:center;margin-bottom:18px}
 .products-grid{display:grid;gap:16px;grid-template-columns:repeat(auto-fit,minmax(230px,1fr))}
@@ -55,7 +53,7 @@ button{border:none;background:none;color:inherit;cursor:pointer;transition:var(-
 .card .price{font-weight:800;margin:.5rem 0}
 .card .btn{margin-top:.4rem}
 
-/* ===== Carrito (se mantiene) ===== */
+/* Carrito */
 .overlay{position:fixed;inset:0;background:rgba(0,0,0,.55);opacity:0;pointer-events:none;transition:var(--tr);z-index:70}
 .overlay.show{opacity:1;pointer-events:auto}
 .cart-panel{position:fixed;top:0;right:-420px;height:100dvh;width:380px;max-width:92%;background:linear-gradient(180deg,#181b27,#12141c);color:#fff;border-left:1px solid var(--line);box-shadow:-10px 0 30px rgba(0,0,0,.5);display:flex;flex-direction:column;transition:var(--tr);z-index:80}
@@ -80,35 +78,32 @@ button{border:none;background:none;color:inherit;cursor:pointer;transition:var(-
 .cart-actions{display:flex;gap:10px}
 .cart-actions .btn{flex:1}
 
-/* ===== Reseñas – limpio ===== */
+/* Opiniones – estilo blog */
 .reviews-section{padding:44px 0 60px}
 .reviews-section h2{text-align:center;margin-bottom:14px}
-
-.reviews-header{display:grid;grid-template-columns:220px 1fr;gap:14px;margin-bottom:12px}
-.rating-summary{background:#121522;border:1px solid var(--line);border-radius:14px;padding:12px;text-align:center}
+.review-shell{display:grid;grid-template-columns:280px 1fr;gap:16px}
+.rating-summary{background:#121522;border:1px solid var(--line);border-radius:14px;padding:14px;text-align:center;box-shadow:var(--shadow)}
 .rating-summary .avg{font-size:2.2rem;font-weight:800;line-height:1}
 .rating-summary .stars-row{font-size:1.1rem;margin:4px 0 2px;color:#ffcc4d}
 .rating-summary .count{color:var(--muted);font-size:.9rem}
-
-.rating-distribution{background:#121522;border:1px solid var(--line);border-radius:14px;padding:10px}
+.rating-distribution{margin-top:10px;background:#121522;border:1px solid var(--line);border-radius:14px;padding:12px}
 .dist-row{display:grid;grid-template-columns:40px 1fr 50px;align-items:center;gap:10px;margin:6px 0}
 .bar{height:8px;background:#1a1e2c;border-radius:999px;overflow:hidden}
 .bar > span{display:block;height:100%;background:#ffcc4d;border-radius:999px;width:0%}
 .dist-row small{color:var(--muted);text-align:right}
-
-/* Form compacto */
-.card-flat{background:#121522;border:1px solid var(--line);border-radius:14px;padding:12px}
-.review-form{max-width:820px;margin:8px auto}
+.review-form{background:linear-gradient(180deg,#151824,#121522);border:1px solid var(--line)}
+.mini-title{font-size:1.05rem;margin-bottom:6px}
 .form-row{display:grid;grid-template-columns:1fr 220px;gap:10px}
 .field{display:flex;flex-direction:column;gap:6px}
 .lbl{font-weight:700;font-size:.9rem}
 input,textarea{background:#151828;border:1px solid var(--line);color:#fff;border-radius:10px;padding:.65rem}
 input:focus,textarea:focus{outline:none;border-color:#3b3f57;box-shadow:0 0 0 3px rgba(229,22,47,.12)}
-.stars{font-size:1.4rem;text-align:left}
+.stars{font-size:1.5rem;text-align:left}
 .stars span{cursor:pointer;color:#666}
 .stars span.active,.stars span:hover{color:var(--accent)}
-
-.reviews-list{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px;margin-top:10px}
+.stars-wrap{display:flex;flex-direction:column;gap:4px}
+.form-hint{display:flex;justify-content:flex-end;margin-top:4px}
+.reviews-list{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px;margin-top:12px}
 .review-card{background:#121522;border:1px solid var(--line);border-radius:14px;padding:12px;display:grid;gap:6px}
 .rev-head{display:flex;align-items:center;gap:10px}
 .avatar{width:32px;height:32px;border-radius:50%;display:grid;place-items:center;font-weight:800;color:#0e0f14}
@@ -116,36 +111,29 @@ input:focus,textarea:focus{outline:none;border-color:#3b3f57;box-shadow:0 0 0 3p
 .rev-stars{color:#ffcc4d;font-size:.95rem}
 .rev-date{color:var(--muted);font-size:.78rem}
 
-/* ===== Contacto – limpio ===== */
+/* Contacto */
 .contact-section{padding:44px 0 72px}
 .contact-section h2{text-align:center;margin-bottom:14px}
 .contact-grid{display:grid;grid-template-columns:1fr 1.2fr;gap:14px}
-.mini-title{font-size:1.04rem;margin-bottom:6px}
-.muted{color:var(--muted)}
-.contact-list{margin-top:6px;display:grid;gap:6px}
+.card-flat{background:#121522;border:1px solid var(--line);border-radius:14px;padding:16px}
+.contact-blurb p{margin-top:4px}
+.contact-list{margin-top:8px;padding-left:0;list-style:none;display:grid;gap:6px}
+.contact-list li{display:flex;align-items:flex-start;gap:8px;word-break:break-word;overflow-wrap:anywhere}
 .contact-card .form-row{grid-template-columns:1fr 1fr}
 .contact-card .field{margin-bottom:6px}
 .feedback{color:#72ffa8;margin-top:6px;text-align:center}
 
-/* ===== Toast ===== */
+/* Toast */
 .toast{position:fixed;bottom:30px;right:30px;background:var(--accent);color:#fff;padding:1rem 1.2rem;border-radius:12px;opacity:0;transform:translateY(20px);transition:var(--tr);z-index:120;box-shadow:var(--shadow);font-weight:700}
 .toast.show{opacity:1;transform:translateY(0)}
 
-/* ===== Footer ===== */
+/* Footer (FIX) */
 .site-footer{background:#0f1118;border-top:1px solid var(--line);color:var(--muted);text-align:center;padding:22px 0}
 .site-footer nav a{margin:0 10px;color:var(--muted)}
 .site-footer nav a:hover{color:#fff}
 
-/* ===== Responsive ===== */
-@media (max-width:900px){
-  .reviews-header{grid-template-columns:1fr}
-  .form-row{grid-template-columns:1fr}
-  .contact-grid{grid-template-columns:1fr}
-}
-@media (max-width:768px){
-  .nav{display:none}
-  .hero h1{font-size:1.9rem}
-}
-@media (max-width:420px){
-  .contact-card .form-row{grid-template-columns:1fr}
-}
+/* Responsive */
+@media (max-width:980px){ .review-shell{grid-template-columns:1fr} }
+@media (max-width:900px){ .form-row{grid-template-columns:1fr} .contact-grid{grid-template-columns:1fr} }
+@media (max-width:768px){ .nav{display:none} .hero h1{font-size:1.9rem} }
+@media (max-width:420px){ .contact-card .form-row{grid-template-columns:1fr} }
