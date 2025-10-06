@@ -1,4 +1,6 @@
-/* VivaStore — Minimal PRO (carrito con + / − y sin "1×$") */
+/* VivaStore — Minimal PRO
+   Mejoras: Opiniones (promedio + barras + avatar + nombre), Contacto bonito.
+   Carrito y productos se mantienen. */
 
 /* ---------- Productos (USD) ---------- */
 const PRODUCTS = [
@@ -18,17 +20,14 @@ const CUR=detectCur();
 const fmt=(n)=>new Intl.NumberFormat(undefined,{minimumFractionDigits:0,maximumFractionDigits:2}).format(n);
 const price=(usd)=>`${CUR.symbol}${fmt(usd*CUR.rate)}`;
 
-/* ---------- Estado del carrito ---------- */
+/* ---------- Carrito (sin cambios) ---------- */
 const STORE='vivastore_cart_v1';
-let cart=JSON.parse(localStorage.getItem(STORE)||'[]'); // [{id,qty}]
+let cart=JSON.parse(localStorage.getItem(STORE)||'[]');
 const save=()=>localStorage.setItem(STORE,JSON.stringify(cart));
-
-/* ---------- Helpers ---------- */
 const $=(s,r=document)=>r.querySelector(s);
 const $$=(s,r=document)=>[...r.querySelectorAll(s)];
 const toast=(m)=>{const t=$('#toast');if(!t)return;t.textContent=m;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2000);};
 
-/* ---------- Render productos ---------- */
 function renderProducts(){
   const grid=$('#products-grid'); if(!grid) return;
   grid.innerHTML=PRODUCTS.map(p=>`
@@ -42,26 +41,15 @@ function renderProducts(){
   `).join('');
 }
 
-/* ---------- Carrito UI ---------- */
 const overlay=$('#overlay'), panel=$('#cart-panel'), badge=$('#cart-badge');
 const itemsBox=$('#cart-items'), totalBox=$('#cart-total');
-
-const openCart = ()=>{panel?.classList.add('open');overlay?.classList.add('show');panel?.setAttribute('aria-hidden','false');};
-const closeCart= ()=>{panel?.classList.remove('open');overlay?.classList.remove('show');panel?.setAttribute('aria-hidden','true');};
-
-function cartTotalUSD(){return cart.reduce((s,it)=>{const p=PRODUCTS.find(x=>x.id===it.id);return s+(p?p.price*it.qty:0)},0)}
-
+const openCart=()=>{panel?.classList.add('open');overlay?.classList.add('show');panel?.setAttribute('aria-hidden','false');};
+const closeCart=()=>{panel?.classList.remove('open');overlay?.classList.remove('show');panel?.setAttribute('aria-hidden','true');};
+const cartTotalUSD=()=>cart.reduce((s,it)=>{const p=PRODUCTS.find(x=>x.id===it.id);return s+(p?p.price*it.qty:0)},0);
 function updateCartUI(){
   badge && (badge.textContent = cart.reduce((n,i)=>n+i.qty,0));
-
   if(!itemsBox||!totalBox) return;
-
-  if(cart.length===0){
-    itemsBox.innerHTML=`<p style="color:#b9bbbe;text-align:center;padding:12px">Tu carrito está vacío.</p>`;
-    totalBox.textContent='—';
-    return;
-  }
-
+  if(cart.length===0){itemsBox.innerHTML=`<p style="color:#b9bbbe;text-align:center;padding:12px">Tu carrito está vacío.</p>`;totalBox.textContent='—';return;}
   itemsBox.innerHTML=cart.map(it=>{
     const p=PRODUCTS.find(x=>x.id===it.id);
     return `
@@ -81,51 +69,117 @@ function updateCartUI(){
         </div>
       </div>`;
   }).join('');
-
   totalBox.textContent=price(cartTotalUSD());
 }
+function addToCart(id){const f=cart.find(i=>i.id===id);if(f)f.qty++;else cart.push({id,qty:1});save();updateCartUI();}
 
-function addToCart(id){
-  const f=cart.find(i=>i.id===id);
-  if(f) f.qty++; else cart.push({id,qty:1});
-  save(); updateCartUI();
+/* ---------- Opiniones ---------- */
+const REV_KEY='vivastore_reviews_v1'; // compat
+function getReviews(){return JSON.parse(localStorage.getItem(REV_KEY)||'[]');}
+function setReviews(arr){localStorage.setItem(REV_KEY,JSON.stringify(arr));}
+
+function renderReviews(){
+  const list=$('#reviews-list'); if(!list) return;
+  const arr=getReviews();
+  if(arr.length===0){list.innerHTML=`<p style="color:#b9bbbe;text-align:center">Aún no hay reseñas.</p>`;return;}
+  list.innerHTML=arr.slice().reverse().map(r=>{
+    const name=r.name?.trim()||'Usuario';
+    const letter=name.charAt(0).toUpperCase();
+    const hue=((name.length*47)%360); // color suave por nombre
+    const date=new Date(r.date||Date.now()).toLocaleDateString();
+    return `
+      <article class="review-card">
+        <div class="rev-head">
+          <div class="avatar" style="background:hsl(${hue} 85% 72%)">${letter}</div>
+          <div>
+            <div class="rev-name">${name}</div>
+            <div class="rev-stars">${'★'.repeat(r.rating)}</div>
+          </div>
+          <div style="margin-left:auto" class="rev-date">${date}</div>
+        </div>
+        <p>${r.text}</p>
+      </article>`;
+  }).join('');
 }
 
-/* ---------- Eventos ---------- */
-document.addEventListener('DOMContentLoaded',()=>{
-  renderProducts(); updateCartUI();
+function renderRatingSummary(){
+  const arr=getReviews();
+  const sum=arr.reduce((a,b)=>a+(+b.rating||0),0);
+  const avg=arr.length? (sum/arr.length) : 0;
+  const summary=$('#rating-summary'); const dist=$('#rating-distribution');
+  if(summary){
+    summary.innerHTML=`
+      <div class="avg">${avg?avg.toFixed(1):'—'}</div>
+      <div class="stars-row">${'★'.repeat(Math.round(avg))}</div>
+      <div class="count">${arr.length} reseña${arr.length===1?'':'s'}</div>
+    `;
+  }
+  if(dist){
+    const counts=[1,2,3,4,5].map(n=>arr.filter(x=>+x.rating===n).length);
+    const total=arr.length||1;
+    dist.innerHTML=[5,4,3,2,1].map(n=>{
+      const c=arr.filter(x=>+x.rating===n).length;
+      const pct=Math.round((c/total)*100);
+      return `<div class="dist-row">
+        <small>${n}★</small>
+        <div class="bar"><span style="width:${pct}%"></span></div>
+        <small>${pct}%</small>
+      </div>`;
+    }).join('');
+  }
+}
 
+/* ---------- Contacto ---------- */
+function validateEmail(v){return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);}
+
+/* ---------- Init ---------- */
+document.addEventListener('DOMContentLoaded',()=>{
+  renderProducts(); updateCartUI(); renderReviews(); renderRatingSummary();
+
+  // Carrito
   $('#btn-cart')?.addEventListener('click',openCart);
   $('#close-cart')?.addEventListener('click',closeCart);
   overlay?.addEventListener('click',closeCart);
 
   $('#products-grid')?.addEventListener('click',e=>{
     const btn=e.target.closest('.add-btn'); if(!btn) return;
-    addToCart(btn.dataset.id);
-    btn.classList.add('clicked'); setTimeout(()=>btn.classList.remove('clicked'),220);
+    addToCart(btn.dataset.id); btn.classList.add('clicked'); setTimeout(()=>btn.classList.remove('clicked'),220);
     toast('Producto agregado 🛒'); openCart();
   });
-
   itemsBox?.addEventListener('click',e=>{
     const b=e.target.closest('button[data-act]'); if(!b) return;
     const id=b.dataset.id, act=b.dataset.act;
     const i=cart.findIndex(x=>x.id===id); if(i<0) return;
-    if(act==='plus'){cart[i].qty++;}
-    if(act==='minus'){cart[i].qty>1?cart[i].qty--:cart.splice(i,1);}
-    if(act==='remove'){cart.splice(i,1);}
+    if(act==='plus') cart[i].qty++;
+    if(act==='minus') cart[i].qty>1?cart[i].qty--:cart.splice(i,1);
+    if(act==='remove') cart.splice(i,1);
     save(); updateCartUI();
   });
-
-  $('#clear-cart')?.addEventListener('click',()=>{
-    if(cart.length===0) return;
-    if(confirm('¿Vaciar carrito?')){ cart=[]; save(); updateCartUI(); }
+  $('#clear-cart')?.addEventListener('click',()=>{ if(cart.length&&confirm('¿Vaciar carrito?')){cart=[];save();updateCartUI();} });
+  $('#checkout')?.addEventListener('click',()=>{
+    if(!cart.length) return toast('Tu carrito está vacío');
+    alert(`¡Gracias! Total: ${price(cartTotalUSD())}\n(Ejemplo: integra tu checkout/WhatsApp aquí)`); cart=[]; save(); updateCartUI(); closeCart();
   });
 
-  $('#checkout')?.addEventListener('click',()=>{
-    if(cart.length===0) return toast('Tu carrito está vacío');
-    const total=totalBox.textContent;
-    alert(`¡Gracias por tu compra! Total: ${total}\n(Ejemplo: integra tu checkout/WhatsApp aquí)`);
-    cart=[]; save(); updateCartUI(); closeCart();
+  // Estrellas con hover live
+  let rating=0; const stars=$$('#stars span');
+  const paint=(n)=> stars.forEach(s=>s.classList.toggle('active', +s.dataset.val<=n));
+  stars.forEach(s=>{
+    s.addEventListener('mouseenter',()=>paint(+s.dataset.val));
+    s.addEventListener('mouseleave',()=>paint(rating));
+    s.addEventListener('click',()=>{rating=+s.dataset.val;paint(rating);});
+  });
+
+  // Envío reseña
+  $('#review-form')?.addEventListener('submit',e=>{
+    e.preventDefault();
+    if(!rating) return toast('Selecciona estrellas ⭐');
+    const name=$('#r-name').value;
+    const text=$('#r-text').value.trim(); if(!text) return;
+    const arr=getReviews(); arr.push({name, text, rating, date: Date.now()});
+    setReviews(arr);
+    $('#r-text').value=''; $('#r-name').value=''; rating=0; paint(0);
+    renderReviews(); renderRatingSummary(); toast('¡Gracias por tu reseña!');
   });
 
   // Contacto
@@ -133,29 +187,13 @@ document.addEventListener('DOMContentLoaded',()=>{
   if(cform){
     cform.addEventListener('submit',e=>{
       e.preventDefault();
+      const name=$('#c-name').value.trim();
+      const email=$('#c-email').value.trim();
+      const msg=$('#c-msg').value.trim();
+      if(!validateEmail(email)) return toast('Correo inválido');
+      if(!name || !msg) return toast('Completa los campos requeridos');
       $('#contact-feedback').textContent='✅ Mensaje enviado. Te responderemos pronto.';
       cform.reset(); toast('Mensaje enviado ✅');
     });
   }
-
-  // Reseñas
-  let rating=0; const stars=$$('#stars span'); const box=$('#reviews-list'); const KEY='vivastore_reviews_v1';
-  const renderReviews=()=>{
-    const arr=JSON.parse(localStorage.getItem(KEY)||'[]');
-    box.innerHTML=arr.length?arr.map(r=>`
-      <div class="review">
-        <div class="smini">${'★'.repeat(r.rating)}</div>
-        <p>${r.text}</p>
-        <small style="color:#8e90a1">— ${new Date(r.date).toLocaleString()}</small>
-      </div>`).join(''):`<p style="color:#b9bbbe;text-align:center">Aún no hay reseñas.</p>`;
-  };
-  stars.forEach(s=>s.addEventListener('click',()=>{rating=+s.dataset.val;stars.forEach(x=>x.classList.toggle('active',+x.dataset.val<=rating));}));
-  $('#review-form')?.addEventListener('submit',e=>{
-    e.preventDefault(); if(!rating) return toast('Selecciona estrellas ⭐');
-    const txt=$('#r-text').value.trim(); if(!txt) return;
-    const arr=JSON.parse(localStorage.getItem(KEY)||'[]'); arr.push({rating:rating,text:txt,date:Date.now()});
-    localStorage.setItem(KEY,JSON.stringify(arr)); $('#r-text').value=''; rating=0; stars.forEach(x=>x.classList.remove('active'));
-    renderReviews(); toast('¡Gracias por tu reseña!');
-  });
-  renderReviews();
 });
