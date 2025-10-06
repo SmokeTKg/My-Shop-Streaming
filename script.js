@@ -1,6 +1,4 @@
-/* VivaStore — Minimal PRO
-   Mejoras: Opiniones (promedio + barras + avatar + nombre), Contacto bonito.
-   Carrito y productos se mantienen. */
+/* VivaStore — Opiniones + Contacto bonitos (resto igual) */
 
 /* ---------- Productos (USD) ---------- */
 const PRODUCTS = [
@@ -13,14 +11,14 @@ const PRODUCTS = [
   { id:'vix',      name:'ViX Premium 1 mes',      price: 3.99, img:'https://images.unsplash.com/photo-1527838832700-5059252407fa?w=800&q=80&auto=format&fit=crop' },
 ];
 
-/* ---------- Moneda por país (simple) ---------- */
+/* ---------- Moneda (simple) ---------- */
 const CURMAP={HN:{code:'HNL',symbol:'L',rate:24.5},MX:{code:'MXN',symbol:'$',rate:18},US:{code:'USD',symbol:'$',rate:1},ES:{code:'EUR',symbol:'€',rate:.92},AR:{code:'ARS',symbol:'$',rate:980},CO:{code:'COP',symbol:'$',rate:3920},CL:{code:'CLP',symbol:'$',rate:940},PE:{code:'PEN',symbol:'S/',rate:3.7},EC:{code:'USD',symbol:'$',rate:1},DO:{code:'DOP',symbol:'RD$',rate:59},NI:{code:'NIO',symbol:'C$',rate:36.5},GT:{code:'GTQ',symbol:'Q',rate:7.8},SV:{code:'USD',symbol:'$',rate:1},CR:{code:'CRC',symbol:'₡',rate:510},UY:{code:'UYU',symbol:'$U',rate:39},PY:{code:'PYG',symbol:'₲',rate:7600},BO:{code:'BOB',symbol:'Bs',rate:6.9},VE:{code:'VES',symbol:'Bs.',rate:36}};
 function detectCur(){const l=(navigator.language||'es-US').toUpperCase();const r=l.split('-')[1]||'US';return CURMAP[r]||CURMAP.US}
 const CUR=detectCur();
 const fmt=(n)=>new Intl.NumberFormat(undefined,{minimumFractionDigits:0,maximumFractionDigits:2}).format(n);
 const price=(usd)=>`${CUR.symbol}${fmt(usd*CUR.rate)}`;
 
-/* ---------- Carrito (sin cambios) ---------- */
+/* ---------- Carrito (se mantiene) ---------- */
 const STORE='vivastore_cart_v1';
 let cart=JSON.parse(localStorage.getItem(STORE)||'[]');
 const save=()=>localStorage.setItem(STORE,JSON.stringify(cart));
@@ -37,8 +35,7 @@ function renderProducts(){
       <p>Acceso premium por 30 días. Entrega rápida y soporte.</p>
       <div class="price">${price(p.price)}</div>
       <button class="btn add-btn" data-id="${p.id}">Agregar</button>
-    </article>
-  `).join('');
+    </article>`).join('');
 }
 
 const overlay=$('#overlay'), panel=$('#cart-panel'), badge=$('#cart-badge');
@@ -67,25 +64,24 @@ function updateCartUI(){
           <button class="qty-btn" data-act="plus" data-id="${p.id}" aria-label="Agregar uno">+</button>
           <button class="remove-btn" data-act="remove" data-id="${p.id}" aria-label="Eliminar">✕</button>
         </div>
-      </div>`;
-  }).join('');
+      </div>`;}).join('');
   totalBox.textContent=price(cartTotalUSD());
 }
 function addToCart(id){const f=cart.find(i=>i.id===id);if(f)f.qty++;else cart.push({id,qty:1});save();updateCartUI();}
 
 /* ---------- Opiniones ---------- */
-const REV_KEY='vivastore_reviews_v1'; // compat
-function getReviews(){return JSON.parse(localStorage.getItem(REV_KEY)||'[]');}
-function setReviews(arr){localStorage.setItem(REV_KEY,JSON.stringify(arr));}
+const REV_KEY='vivastore_reviews_v1';
+const getReviews=()=>JSON.parse(localStorage.getItem(REV_KEY)||'[]');
+const setReviews=(a)=>localStorage.setItem(REV_KEY,JSON.stringify(a));
 
 function renderReviews(){
   const list=$('#reviews-list'); if(!list) return;
   const arr=getReviews();
-  if(arr.length===0){list.innerHTML=`<p style="color:#b9bbbe;text-align:center">Aún no hay reseñas.</p>`;return;}
+  if(!arr.length){list.innerHTML=`<p style="color:#b9bbbe;text-align:center">Aún no hay reseñas.</p>`;return;}
   list.innerHTML=arr.slice().reverse().map(r=>{
     const name=r.name?.trim()||'Usuario';
     const letter=name.charAt(0).toUpperCase();
-    const hue=((name.length*47)%360); // color suave por nombre
+    const hue=((name.length*47)%360);
     const date=new Date(r.date||Date.now()).toLocaleDateString();
     return `
       <article class="review-card">
@@ -98,8 +94,7 @@ function renderReviews(){
           <div style="margin-left:auto" class="rev-date">${date}</div>
         </div>
         <p>${r.text}</p>
-      </article>`;
-  }).join('');
+      </article>`}).join('');
 }
 
 function renderRatingSummary(){
@@ -111,11 +106,9 @@ function renderRatingSummary(){
     summary.innerHTML=`
       <div class="avg">${avg?avg.toFixed(1):'—'}</div>
       <div class="stars-row">${'★'.repeat(Math.round(avg))}</div>
-      <div class="count">${arr.length} reseña${arr.length===1?'':'s'}</div>
-    `;
+      <div class="count">${arr.length} reseña${arr.length===1?'':'s'}</div>`;
   }
   if(dist){
-    const counts=[1,2,3,4,5].map(n=>arr.filter(x=>+x.rating===n).length);
     const total=arr.length||1;
     dist.innerHTML=[5,4,3,2,1].map(n=>{
       const c=arr.filter(x=>+x.rating===n).length;
@@ -124,8 +117,7 @@ function renderRatingSummary(){
         <small>${n}★</small>
         <div class="bar"><span style="width:${pct}%"></span></div>
         <small>${pct}%</small>
-      </div>`;
-    }).join('');
+      </div>`}).join('');
   }
 }
 
@@ -143,7 +135,7 @@ document.addEventListener('DOMContentLoaded',()=>{
 
   $('#products-grid')?.addEventListener('click',e=>{
     const btn=e.target.closest('.add-btn'); if(!btn) return;
-    addToCart(btn.dataset.id); btn.classList.add('clicked'); setTimeout(()=>btn.classList.remove('clicked'),220);
+    addToCart(btn.dataset.id); btn.classList.add('clicked'); setTimeout(()=>btn.classList.remove('clicked'),200);
     toast('Producto agregado 🛒'); openCart();
   });
   itemsBox?.addEventListener('click',e=>{
@@ -161,9 +153,9 @@ document.addEventListener('DOMContentLoaded',()=>{
     alert(`¡Gracias! Total: ${price(cartTotalUSD())}\n(Ejemplo: integra tu checkout/WhatsApp aquí)`); cart=[]; save(); updateCartUI(); closeCart();
   });
 
-  // Estrellas con hover live
+  // Estrellas
   let rating=0; const stars=$$('#stars span');
-  const paint=(n)=> stars.forEach(s=>s.classList.toggle('active', +s.dataset.val<=n));
+  const paint=(n)=>stars.forEach(s=>s.classList.toggle('active',+s.dataset.val<=n));
   stars.forEach(s=>{
     s.addEventListener('mouseenter',()=>paint(+s.dataset.val));
     s.addEventListener('mouseleave',()=>paint(rating));

@@ -23,7 +23,7 @@
 </header>
 
 <main>
-  <!-- Hero (sin cambiar) -->
+  <!-- Hero -->
   <section class="hero">
     <div class="container hero-inner">
       <div class="hero-copy">
@@ -34,7 +34,7 @@
     </div>
   </section>
 
-  <!-- Productos (sin cambiar) -->
+  <!-- Productos -->
   <section id="productos" class="productos-section">
     <div class="container">
       <h2>Elige tu plan</h2>
@@ -42,92 +42,101 @@
     </div>
   </section>
 
-  <!-- Reseñas (MEJORADO) -->
+  <!-- Reseñas (mejorado) -->
   <section id="reseñas" class="reviews-section">
     <div class="container">
       <h2>Opiniones de usuarios</h2>
 
-      <!-- Encabezado: promedio + barras -->
-      <div class="reviews-header">
-        <div class="rating-summary" id="rating-summary">
-          <!-- JS: promedio + estrellas + contador -->
+      <div class="section-wrap narrow">
+        <!-- Promedio + barras -->
+        <div class="reviews-header">
+          <div class="rating-summary" id="rating-summary"></div>
+          <div class="rating-distribution" id="rating-distribution"></div>
         </div>
-        <div class="rating-distribution" id="rating-distribution">
-          <!-- JS: barras 5..1 -->
-        </div>
-      </div>
 
-      <!-- Formulario -->
-      <form id="review-form" class="card-flat review-form">
-        <div class="form-row">
-          <div class="field">
-            <label class="lbl">Nombre (opcional)</label>
-            <input id="r-name" type="text" placeholder="Tu nombre (opcional)">
-          </div>
-          <div class="field">
-            <label class="lbl">Calificación</label>
-            <div id="stars" class="stars" aria-label="Calificación de 1 a 5">
-              <span data-val="1">★</span><span data-val="2">★</span>
-              <span data-val="3">★</span><span data-val="4">★</span>
-              <span data-val="5">★</span>
+        <!-- Form compacto y centrado -->
+        <form id="review-form" class="card-flat review-form">
+          <div class="form-row">
+            <div class="field">
+              <label class="lbl">Nombre (opcional)</label>
+              <input id="r-name" type="text" placeholder="Tu nombre (opcional)">
+            </div>
+            <div class="field">
+              <label class="lbl">Calificación</label>
+              <div id="stars" class="stars" aria-label="Calificación de 1 a 5">
+                <span data-val="1">★</span><span data-val="2">★</span>
+                <span data-val="3">★</span><span data-val="4">★</span>
+                <span data-val="5">★</span>
+              </div>
             </div>
           </div>
-        </div>
 
-        <label class="lbl">Comentario</label>
-        <textarea id="r-text" rows="4" placeholder="Cuéntanos tu experiencia..." required></textarea>
+          <div class="field">
+            <label class="lbl">Comentario</label>
+            <textarea id="r-text" rows="3" placeholder="Cuéntanos tu experiencia..." required></textarea>
+          </div>
 
-        <button type="submit" class="btn btn-primary">Enviar reseña</button>
-      </form>
+          <div class="form-actions">
+            <button type="submit" class="btn btn-primary">Enviar reseña</button>
+          </div>
+        </form>
 
-      <!-- Lista -->
-      <div id="reviews-list" class="reviews-list"><!-- render JS --></div>
+        <!-- Lista de reseñas -->
+        <div id="reviews-list" class="reviews-list"><!-- render JS --></div>
+      </div>
     </div>
   </section>
 
-  <!-- Contacto (MEJORADO) -->
+  <!-- Contacto (mejorado) -->
   <section id="contacto" class="contact-section">
     <div class="container">
       <h2>Contáctanos</h2>
 
-      <div class="contact-grid">
-        <div class="contact-blurb card-flat">
-          <h3 class="mini-title">Soporte rápido</h3>
-          <p class="muted">Escríbenos y te respondemos en poco tiempo. También podemos coordinar por correo.</p>
-          <ul class="contact-list">
-            <li>📨 Soporte: <span class="muted">soporte@vivastore.example</span></li>
-            <li>⏱ Horario: <span class="muted">Lun a Sáb, 9:00–18:00</span></li>
-          </ul>
-        </div>
+      <div class="section-wrap narrow">
+        <div class="contact-grid">
+          <div class="contact-blurb card-flat">
+            <h3 class="mini-title">Soporte rápido</h3>
+            <p class="muted">Escríbenos y te respondemos en poco tiempo. También coordinamos por correo.</p>
+            <ul class="contact-list">
+              <li>📨 Soporte: <span class="muted">soporte@vivastore.example</span></li>
+              <li>⏱ Horario: <span class="muted">Lun a Sáb, 9:00–18:00</span></li>
+            </ul>
+          </div>
 
-        <form id="contact-form" class="card-flat contact-card">
-          <div class="form-row">
-            <div class="field">
-              <label class="lbl">Nombre</label>
-              <input id="c-name" type="text" placeholder="Tu nombre" required>
+          <form id="contact-form" class="card-flat contact-card">
+            <div class="form-row">
+              <div class="field">
+                <label class="lbl">Nombre</label>
+                <input id="c-name" type="text" placeholder="Tu nombre" required>
+              </div>
+              <div class="field">
+                <label class="lbl">Correo</label>
+                <input id="c-email" type="email" placeholder="tucorreo@ejemplo.com" required>
+              </div>
             </div>
+
             <div class="field">
-              <label class="lbl">Correo</label>
-              <input id="c-email" type="email" placeholder="tucorreo@ejemplo.com" required>
+              <label class="lbl">Asunto (opcional)</label>
+              <input id="c-subject" type="text" placeholder="Tema del mensaje">
             </div>
-          </div>
-          <div class="field">
-            <label class="lbl">Asunto (opcional)</label>
-            <input id="c-subject" type="text" placeholder="Tema del mensaje">
-          </div>
-          <div class="field">
-            <label class="lbl">Mensaje</label>
-            <textarea id="c-msg" rows="5" placeholder="¿En qué podemos ayudarte?" required></textarea>
-          </div>
-          <button type="submit" class="btn btn-primary">Enviar</button>
-          <p id="contact-feedback" class="feedback" aria-live="polite"></p>
-        </form>
+
+            <div class="field">
+              <label class="lbl">Mensaje</label>
+              <textarea id="c-msg" rows="4" placeholder="¿En qué podemos ayudarte?" required></textarea>
+            </div>
+
+            <div class="form-actions">
+              <button type="submit" class="btn btn-primary">Enviar</button>
+              <p id="contact-feedback" class="feedback" aria-live="polite"></p>
+            </div>
+          </form>
+        </div>
       </div>
     </div>
   </section>
 </main>
 
-<!-- Carrito (sin cambios funcionales) -->
+<!-- Carrito (sin tocar) -->
 <aside id="cart-panel" class="cart-panel" aria-hidden="true">
   <div class="cart-header">
     <h3>Tu carrito</h3><button id="close-cart" class="icon-x" aria-label="Cerrar">✕</button>
