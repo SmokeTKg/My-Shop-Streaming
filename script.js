@@ -1,13 +1,13 @@
-/* VivaStore — lógica principal (cart tuned) */
+/* VivaStore — Minimal PRO (carrito con + / − y sin "1×$") */
 
 /* ---------- Productos (USD) ---------- */
 const PRODUCTS = [
-  { id:'hbo',      name:'HBO Max 1 mes',         price: 6.49, img:'https://images.unsplash.com/photo-1495567720989-cebdbdd97913?w=800&q=80&auto=format&fit=crop' },
-  { id:'spotify',  name:'Spotify Premium 1 mes',  price: 3.49, img:'https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=800&q=80&auto=format&fit=crop' },
-  { id:'paramount',name:'Paramount+ 1 mes',       price: 4.99, img:'https://images.unsplash.com/photo-1515378791036-0648a3ef77b2?w=800&q=80&auto=format&fit=crop' },
   { id:'netflix',  name:'Netflix Premium 1 mes',  price: 6.99, img:'https://images.unsplash.com/photo-1589405858862-2ac9cbb41321?w=800&q=80&auto=format&fit=crop' },
+  { id:'spotify',  name:'Spotify Premium 1 mes',  price: 3.49, img:'https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=800&q=80&auto=format&fit=crop' },
   { id:'disney',   name:'Disney+ 1 mes',          price: 5.49, img:'https://images.unsplash.com/photo-1603190287605-e6ade32fa852?w=800&q=80&auto=format&fit=crop' },
+  { id:'hbo',      name:'HBO Max 1 mes',          price: 6.49, img:'https://images.unsplash.com/photo-1495567720989-cebdbdd97913?w=800&q=80&auto=format&fit=crop' },
   { id:'prime',    name:'Prime Video 1 mes',      price: 5.99, img:'https://images.unsplash.com/photo-1520975682031-6cf9f3cbd76b?w=800&q=80&auto=format&fit=crop' },
+  { id:'paramount',name:'Paramount+ 1 mes',       price: 4.99, img:'https://images.unsplash.com/photo-1515378791036-0648a3ef77b2?w=800&q=80&auto=format&fit=crop' },
   { id:'vix',      name:'ViX Premium 1 mes',      price: 3.99, img:'https://images.unsplash.com/photo-1527838832700-5059252407fa?w=800&q=80&auto=format&fit=crop' },
 ];
 
@@ -30,8 +30,7 @@ const toast=(m)=>{const t=$('#toast');if(!t)return;t.textContent=m;t.classList.a
 
 /* ---------- Render productos ---------- */
 function renderProducts(){
-  const grid=$('#products-grid');
-  if(!grid) return;
+  const grid=$('#products-grid'); if(!grid) return;
   grid.innerHTML=PRODUCTS.map(p=>`
     <article class="card">
       <img src="${p.img}" alt="${p.name}">
@@ -50,9 +49,7 @@ const itemsBox=$('#cart-items'), totalBox=$('#cart-total');
 const openCart = ()=>{panel?.classList.add('open');overlay?.classList.add('show');panel?.setAttribute('aria-hidden','false');};
 const closeCart= ()=>{panel?.classList.remove('open');overlay?.classList.remove('show');panel?.setAttribute('aria-hidden','true');};
 
-function cartTotalUSD(){
-  return cart.reduce((sum,it)=>{const p=PRODUCTS.find(x=>x.id===it.id);return sum+(p?p.price*it.qty:0)},0);
-}
+function cartTotalUSD(){return cart.reduce((s,it)=>{const p=PRODUCTS.find(x=>x.id===it.id);return s+(p?p.price*it.qty:0)},0)}
 
 function updateCartUI(){
   badge && (badge.textContent = cart.reduce((n,i)=>n+i.qty,0));
@@ -69,18 +66,18 @@ function updateCartUI(){
     const p=PRODUCTS.find(x=>x.id===it.id);
     return `
       <div class="cart-item">
-        <img src="${p.img}" alt="${p.name}">
-        <div>
-          <h4>${p.name}</h4>
-          <div class="meta">${price(p.price)} c/u</div>
-        </div>
-        <div class="actions">
-          <div class="qty">
-            <button class="qty-btn" data-act="minus" data-id="${p.id}">−</button>
-            <span class="qty-value">${it.qty}</span>
-            <button class="qty-btn" data-act="plus" data-id="${p.id}">+</button>
+        <div class="ci-main">
+          <img class="ci-thumb" src="${p.img}" alt="${p.name}">
+          <div class="ci-info">
+            <h4>${p.name}</h4>
+            <small class="ci-price">${price(p.price)} / mes</small>
           </div>
-          <button class="remove-btn" data-act="remove" data-id="${p.id}" title="Eliminar">✕</button>
+        </div>
+        <div class="ci-controls">
+          <button class="qty-btn" data-act="minus" data-id="${p.id}" aria-label="Quitar uno">−</button>
+          <span class="qty-val">${it.qty}</span>
+          <button class="qty-btn" data-act="plus" data-id="${p.id}" aria-label="Agregar uno">+</button>
+          <button class="remove-btn" data-act="remove" data-id="${p.id}" aria-label="Eliminar">✕</button>
         </div>
       </div>`;
   }).join('');
@@ -98,12 +95,10 @@ function addToCart(id){
 document.addEventListener('DOMContentLoaded',()=>{
   renderProducts(); updateCartUI();
 
-  // Abrir/cerrar carrito
   $('#btn-cart')?.addEventListener('click',openCart);
   $('#close-cart')?.addEventListener('click',closeCart);
   overlay?.addEventListener('click',closeCart);
 
-  // Agregar desde productos
   $('#products-grid')?.addEventListener('click',e=>{
     const btn=e.target.closest('.add-btn'); if(!btn) return;
     addToCart(btn.dataset.id);
@@ -111,22 +106,21 @@ document.addEventListener('DOMContentLoaded',()=>{
     toast('Producto agregado 🛒'); openCart();
   });
 
-  // Acciones dentro del carrito
   itemsBox?.addEventListener('click',e=>{
     const b=e.target.closest('button[data-act]'); if(!b) return;
     const id=b.dataset.id, act=b.dataset.act;
     const i=cart.findIndex(x=>x.id===id); if(i<0) return;
-    if(act==='plus') cart[i].qty++;
-    if(act==='minus') cart[i].qty>1?cart[i].qty--:cart.splice(i,1);
-    if(act==='remove') cart.splice(i,1);
+    if(act==='plus'){cart[i].qty++;}
+    if(act==='minus'){cart[i].qty>1?cart[i].qty--:cart.splice(i,1);}
+    if(act==='remove'){cart.splice(i,1);}
     save(); updateCartUI();
   });
 
-  // Footer del carrito
   $('#clear-cart')?.addEventListener('click',()=>{
     if(cart.length===0) return;
     if(confirm('¿Vaciar carrito?')){ cart=[]; save(); updateCartUI(); }
   });
+
   $('#checkout')?.addEventListener('click',()=>{
     if(cart.length===0) return toast('Tu carrito está vacío');
     const total=totalBox.textContent;
@@ -145,8 +139,7 @@ document.addEventListener('DOMContentLoaded',()=>{
   }
 
   // Reseñas
-  let rating=0; const stars=$$('#stars span'); const box=$('#reviews-list');
-  const KEY='vivastore_reviews_v1';
+  let rating=0; const stars=$$('#stars span'); const box=$('#reviews-list'); const KEY='vivastore_reviews_v1';
   const renderReviews=()=>{
     const arr=JSON.parse(localStorage.getItem(KEY)||'[]');
     box.innerHTML=arr.length?arr.map(r=>`
