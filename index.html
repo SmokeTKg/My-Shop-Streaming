@@ -1,106 +1,95 @@
 <!doctype html>
 <html lang="es">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>VivaStore — Tienda de Streaming</title>
-
-  <!-- Fuente -->
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>VivaStore — Streaming Premium</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="./styles.css" />
+  <link rel="stylesheet" href="./styles.css"/>
 </head>
 <body>
-  <!-- Header -->
-  <header class="site-header">
-    <div class="container header-inner">
-      <a class="brand" href="index.html">Viva<span>Store</span></a>
+<header class="site-header">
+  <div class="container header-inner">
+    <a class="brand" href="#">Viva<span>Store</span></a>
+    <nav class="nav">
+      <a href="#productos">Productos</a>
+      <a href="#contacto">Contacto</a>
+      <a href="#reseñas">Reseñas</a>
+    </nav>
+    <button id="btn-cart" class="icon-btn" aria-label="Abrir carrito">
+      🛒<span id="cart-badge" class="badge">0</span>
+    </button>
+  </div>
+</header>
 
-      <nav class="nav">
-        <a href="#productos">Productos</a>
-        <a href="contacto.html">Contacto</a>
-      </nav>
-
-      <button id="btn-cart" class="icon-btn" aria-label="Abrir carrito">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-          <path d="M3 3h2l.4 2M7 13h10l4-8H5.4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
-          <circle cx="10" cy="20" r="1.7" fill="currentColor"/>
-          <circle cx="18" cy="20" r="1.7" fill="currentColor"/>
-        </svg>
-        <span id="cart-badge" class="badge">0</span>
-      </button>
+<main>
+  <section class="hero">
+    <div class="container hero-inner">
+      <h1>Accede a tus plataformas favoritas al mejor precio</h1>
+      <p>Netflix, Spotify, Disney+, HBO Max, Prime Video y más.</p>
+      <a href="#productos" class="btn btn-primary">Explorar</a>
     </div>
-  </header>
+  </section>
 
-  <main>
-    <!-- Hero -->
-    <section class="hero">
-      <div class="container hero-inner">
-        <div class="hero-text">
-          <h1>Suscripciones de Streaming al mejor precio</h1>
-          <p>Netflix, Spotify, Disney+, HBO Max, Prime Video, Paramount+, ViX y más. Compra fácil y rápido.</p>
-          <a href="#productos" class="btn btn-primary">Explorar productos</a>
-        </div>
-        <div class="hero-art" aria-hidden="true">
-          <div class="glow"></div>
-          <div class="card-slab">
-            <div class="dot"></div><div class="dot"></div><div class="dot"></div>
-          </div>
-        </div>
+  <section id="productos" class="productos-section container">
+    <h2>Elige tu plan</h2>
+    <div id="products-grid" class="products-grid"></div>
+  </section>
+
+  <!-- Formulario de contacto -->
+  <section id="contacto" class="contact-section container">
+    <h2>Contáctanos</h2>
+    <form id="contact-form">
+      <label>Nombre</label>
+      <input type="text" id="c-name" required>
+      <label>Email</label>
+      <input type="email" id="c-email" required>
+      <label>Mensaje</label>
+      <textarea id="c-msg" required></textarea>
+      <button type="submit" class="btn btn-primary">Enviar</button>
+    </form>
+    <p id="contact-feedback"></p>
+  </section>
+
+  <!-- Reseñas -->
+  <section id="reseñas" class="reviews-section container">
+    <h2>Opiniones de usuarios</h2>
+    <form id="review-form">
+      <label>Tu calificación:</label>
+      <div id="stars" class="stars">
+        <span data-val="1">★</span><span data-val="2">★</span>
+        <span data-val="3">★</span><span data-val="4">★</span>
+        <span data-val="5">★</span>
       </div>
-    </section>
+      <label>Comentario:</label>
+      <textarea id="r-text" required></textarea>
+      <button type="submit" class="btn btn-primary">Enviar reseña</button>
+    </form>
+    <div id="reviews-list" class="reviews-list"></div>
+  </section>
+</main>
 
-    <!-- Productos -->
-    <section id="productos" class="productos-section">
-      <div class="container">
-        <h2>Elige tu plan</h2>
-
-        <div id="products-grid" class="products-grid">
-          <!-- Se llena dinámicamente desde script.js -->
-        </div>
-      </div>
-    </section>
-  </main>
-
-  <!-- Carrito lateral -->
-  <aside id="cart-panel" class="cart-panel" aria-hidden="true">
-    <div class="cart-header">
-      <h3>Tu carrito</h3>
-      <button id="close-cart" class="icon-btn" aria-label="Cerrar carrito">✕</button>
+<!-- Carrito -->
+<aside id="cart-panel" class="cart-panel">
+  <div class="cart-header">
+    <h3>Tu carrito</h3><button id="close-cart">✕</button>
+  </div>
+  <div id="cart-items" class="cart-items"></div>
+  <div class="cart-footer">
+    <div><strong>Total:</strong> <span id="cart-total">—</span></div>
+    <div class="cart-actions">
+      <button id="clear-cart" class="btn btn-ghost">Vaciar</button>
+      <button id="checkout" class="btn btn-primary">Comprar</button>
     </div>
+  </div>
+</aside>
+<div id="overlay" class="overlay"></div>
+<div id="toast" class="toast"></div>
 
-    <div id="cart-items" class="cart-items">
-      <!-- Items del carrito -->
-    </div>
+<footer class="site-footer">
+  <p>© 2025 VivaStore. Todos los derechos reservados.</p>
+</footer>
 
-    <div class="cart-footer">
-      <div class="cart-total">
-        <span>Total</span>
-        <strong id="cart-total">—</strong>
-      </div>
-      <div class="cart-actions">
-        <button id="clear-cart" class="btn btn-ghost">Vaciar carrito</button>
-        <button id="checkout" class="btn btn-primary">Realizar compra</button>
-      </div>
-    </div>
-  </aside>
-
-  <!-- Overlay para cuando se abre el carrito -->
-  <div id="overlay" class="overlay" aria-hidden="true"></div>
-
-  <!-- Toast -->
-  <div id="toast" class="toast" role="status" aria-live="polite"></div>
-
-  <footer class="site-footer">
-    <div class="container">
-      <p>© 2025 VivaStore. Todos los derechos reservados.</p>
-      <nav>
-        <a href="politica.html">Política de Privacidad</a>
-        <a href="sobre.html">Sobre nosotros</a>
-        <a href="contacto.html">Contacto</a>
-      </nav>
-    </div>
-  </footer>
-
-  <script src="./script.js"></script>
+<script src="./script.js"></script>
 </body>
 </html>
