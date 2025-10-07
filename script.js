@@ -13,24 +13,9 @@ document.addEventListener('DOMContentLoaded', () => {
     setTimeout(()=>toast.classList.remove('show'), 1800);
   };
 
-  /* ---- Divisa (forzada a USD) ---- */
-const LOCALE = navigator.language || 'es-US';
-// Si prefieres auto por país, borra la línea FORCE_CURRENCY y deja la siguiente lógica.
-const FORCE_CURRENCY = 'USD'; // Cambia a 'EUR' si quieres euros, o null para automático.
-
-const country = (LOCALE.split('-')[1] || 'US').toUpperCase();
-const countryToCurrency = {
-  US:'USD', HN:'HNL', MX:'MXN', CO:'COP', AR:'ARS', CL:'CLP', PE:'PEN', ES:'EUR',
-  EC:'USD', SV:'USD', GT:'GTQ', NI:'NIO', CR:'CRC', UY:'UYU', PY:'PYG', BR:'BRL', DO:'DOP', VE:'USD', PA:'USD', PR:'USD'
-};
-
-const currency = FORCE_CURRENCY || (countryToCurrency[country] || 'USD');
-const rates = { USD:1, HNL:24.7, MXN:17, COP:3980, ARS:950, CLP:920, PEN:3.75, EUR:0.93, GTQ:7.8, NIO:36.7, CRC:525, UYU:39, PYG:7400, BRL:5.5, DOP:59 };
-
-const nf = new Intl.NumberFormat(undefined, { style:'currency', currency });
-const toLocal = usd => usd * (rates[currency] || 1);
-const fmt = usd => nf.format(toLocal(usd));
-
+  /* === Moneda forzada para toda la web (USD) === */
+  const nf = new Intl.NumberFormat('en-US', { style:'currency', currency:'USD' });
+  const fmt = (usd) => nf.format(usd);
 
   /* Productos */
   const products = [

@@ -55,9 +55,16 @@ p{line-height:1.7}
   display:inline-flex;align-items:center;justify-content:center;height:46px;padding:0 18px;
   border-radius:14px;font-weight:700;letter-spacing:.2px;border:1px solid transparent;transition:var(--transition);cursor:pointer
 }
-/* Quitar subrayado en enlaces que usan clase .btn */
-a.btn { text-decoration: none; }
-a.btn:hover { text-decoration: none; }
+
+/* FIX: quitar subrayado en enlaces que usan clase .btn */
+a.btn,
+a.btn:link,
+a.btn:visited,
+a.btn:hover,
+a.btn:active,
+.btn a {
+  text-decoration: none !important;
+}
 
 .btn-primary{background:linear-gradient(180deg,var(--accent),var(--accent-2));color:#fff;box-shadow:0 8px 20px rgba(225,29,47,.25)}
 .btn-primary:hover{transform:translateY(-1px)}
