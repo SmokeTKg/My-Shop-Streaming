@@ -62,4 +62,33 @@
 <!-- Carrito -->
 <aside id="cart-panel" class="cart-panel" aria-hidden="true">
   <div class="cart-header">
-    <h3>Tu carrito</h3><button id="close-cart" class="icon-x" aria-label="Cerrar">✕</but
+    <h3>Tu carrito</h3><button id="close-cart" class="icon-x" aria-label="Cerrar">✕</button>
+  </div>
+  <div id="cart-items" class="cart-items"></div>
+  <div class="cart-footer">
+    <div class="cart-total"><span>Total</span><strong id="cart-total">—</strong></div>
+    <div class="cart-actions">
+      <button id="clear-cart" class="btn btn-ghost">Vaciar carrito</button>
+      <button id="checkout" class="btn btn-primary">Realizar compra</button>
+    </div>
+  </div>
+</aside>
+<div id="overlay" class="overlay" aria-hidden="true"></div>
+<div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+<footer class="site-footer">
+  <div class="container footer-nav">
+    <ul class="footer-links">
+      <li><a href="sobre.html">Sobre nosotros</a></li>
+      <li><a href="contacto.html">Contáctanos</a></li>
+      <li><a href="politica.html">Política de Privacidad</a></li>
+    </ul>
+  </div>
+  <div class="container footer-legal">
+    <p class="muted">© 2025 VivaStore. Todos los derechos reservados.</p>
+  </div>
+</footer>
+
+<script src="./script.js"></script>
+</body>
+</html>
