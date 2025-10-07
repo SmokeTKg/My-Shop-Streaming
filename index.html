@@ -14,7 +14,7 @@
     <nav class="nav">
       <a href="#productos">Productos</a>
       <a href="#reseñas">Reseñas</a>
-      <a href="contacto.html">Contacto</a>
+      <a href="#contacto">Contacto</a>
     </nav>
     <button id="btn-cart" class="icon-btn" aria-label="Abrir carrito">
       🛒<span id="cart-badge" class="badge">0</span>
@@ -38,7 +38,7 @@
   <section id="productos" class="productos-section">
     <div class="container">
       <h2>Elige tu plan</h2>
-      <div id="products-grid" class="products-grid"><!-- render JS --></div>
+      <div id="products-grid" class="products-grid"></div>
     </div>
   </section>
 
@@ -88,14 +88,62 @@
             </div>
           </form>
 
-          <div id="reviews-list" class="reviews-list"><!-- render JS --></div>
+          <div id="reviews-list" class="reviews-list"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contacto -->
+  <section id="contacto" class="contact-section">
+    <div class="container">
+      <h2>Contáctanos</h2>
+
+      <div class="section-wrap narrow">
+        <div class="contact-grid">
+          <div class="contact-blurb card-flat">
+            <h3 class="mini-title">Soporte rápido</h3>
+            <p class="muted">Escríbenos y te respondemos en poco tiempo. También coordinamos por correo.</p>
+            <ul class="contact-list">
+              <li><span>📨</span><span>Soporte: <b>soporte@vivastore.example</b></span></li>
+              <li><span>⏱</span><span>Horario: <b>Lun a Sáb, 9:00–18:00</b></span></li>
+            </ul>
+          </div>
+
+          <form id="contact-form" class="card-flat contact-card">
+            <div class="form-row">
+              <div class="field">
+                <label class="lbl">Nombre</label>
+                <input id="c-name" type="text" placeholder="Tu nombre" required>
+              </div>
+              <div class="field">
+                <label class="lbl">Correo</label>
+                <input id="c-email" type="email" placeholder="tucorreo@ejemplo.com" required>
+              </div>
+            </div>
+
+            <div class="field">
+              <label class="lbl">Asunto (opcional)</label>
+              <input id="c-subject" type="text" placeholder="Tema del mensaje">
+            </div>
+
+            <div class="field">
+              <label class="lbl">Mensaje</label>
+              <textarea id="c-msg" rows="4" placeholder="¿En qué podemos ayudarte?" required></textarea>
+            </div>
+
+            <div class="form-actions">
+              <button type="submit" class="btn btn-primary">Enviar</button>
+              <p id="contact-feedback" class="feedback" aria-live="polite"></p>
+            </div>
+          </form>
         </div>
       </div>
     </div>
   </section>
 </main>
 
-<!-- Carrito (global) -->
+<!-- Carrito -->
 <aside id="cart-panel" class="cart-panel" aria-hidden="true">
   <div class="cart-header">
     <h3>Tu carrito</h3><button id="close-cart" class="icon-x" aria-label="Cerrar">✕</button>
@@ -112,31 +160,14 @@
 <div id="overlay" class="overlay" aria-hidden="true"></div>
 <div id="toast" class="toast" role="status" aria-live="polite"></div>
 
-<!-- Footer tipo Eneba -->
 <footer class="site-footer">
-  <div class="container footer-top">
-    <div>
-      <h4>Sobre VivaStore</h4>
-      <ul>
-        <li><a href="sobre.html">Sobre nosotros</a></li>
-        <li><a href="contacto.html">Contáctanos</a></li>
-      </ul>
-    </div>
-    <div>
-      <h4>Comprar</h4>
-      <ul>
-        <li><a href="#productos">Cómo comprar</a></li>
-        <li><a href="politica.html">Política de Privacidad</a></li>
-      </ul>
-    </div>
-  </div>
-
-  <div class="container footer-legal">
-    <p class="muted">
-      Puedes darte de baja en cualquier momento. Visita el apartado
-      <a href="politica.html">Política de Privacidad</a> para más información.
-    </p>
+  <div class="container">
     <p>© 2025 VivaStore. Todos los derechos reservados.</p>
+    <nav>
+      <a href="politica.html">Política de Privacidad</a>
+      <a href="sobre.html">Sobre nosotros</a>
+      <a href="contacto.html">Contacto</a>
+    </nav>
   </div>
 </footer>
 
