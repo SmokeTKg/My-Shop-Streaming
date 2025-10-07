@@ -139,14 +139,40 @@ input:focus,textarea:focus{outline:none;border-color:#3b3f57;box-shadow:0 0 0 3p
 .toast{position:fixed;bottom:30px;right:30px;background:var(--accent);color:#fff;padding:1rem 1.2rem;border-radius:12px;opacity:0;transform:translateY(20px);transition:var(--tr);z-index:120;box-shadow:var(--shadow);font-weight:700}
 .toast.show{opacity:1;transform:translateY(0)}
 
-/* Footer tipo Eneba */
-.site-footer{background:#0f1118;border-top:1px solid var(--line);margin-top:24px}
-.footer-top{display:grid;gap:18px;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));padding:22px 0}
+/* Footer tipo Eneba (limpio, sin bullets) */
+.site-footer{
+  background:#0f1118;
+  border-top:1px solid var(--line);
+  margin-top:24px;
+}
+.footer-top{
+  display:grid;
+  gap:18px;
+  grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+  padding:22px 0;
+  text-align:center;
+}
 .footer-top h4{margin-bottom:6px}
-.footer-top ul{list-style:none;display:grid;gap:6px}
-.footer-top a{color:var(--muted)}
+
+/* FIX bullets/viñetas */
+.site-footer ul{list-style:none;padding:0;margin:0}
+.site-footer li{list-style:none}
+.site-footer li::marker{content:''}
+
+/* Links del footer */
+.footer-top a{
+  display:inline-block;
+  color:var(--muted);
+  padding:.25rem 0;
+}
 .footer-top a:hover{color:#fff}
-.footer-legal{border-top:1px solid var(--line);text-align:center;padding:16px 0}
+
+/* Línea legal */
+.footer-legal{
+  border-top:1px solid var(--line);
+  text-align:center;
+  padding:16px 0;
+}
 .footer-legal p{margin:4px 0}
 
 /* Responsive */
