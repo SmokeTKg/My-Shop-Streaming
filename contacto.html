@@ -1,11 +1,107 @@
 <!doctype html>
 <html lang="es">
 <head>
-  <meta http-equiv="refresh" content="0; url=index.html#contacto">
-  <meta charset="utf-8">
-  <title>Redirigiendo…</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Contacto — VivaStore</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./styles.css">
 </head>
 <body>
-  <p>Redirigiendo a <a href="index.html#contacto">Contáctanos</a>…</p>
+<header class="site-header">
+  <div class="container header-inner">
+    <a class="brand" href="index.html">Viva<span>Store</span></a>
+    <nav class="nav">
+      <a href="index.html#productos">Productos</a>
+      <a href="index.html#reseñas">Reseñas</a>
+      <a href="contacto.html">Contacto</a>
+    </nav>
+    <button id="btn-cart" class="icon-btn" aria-label="Abrir carrito">
+      🛒<span id="cart-badge" class="badge">0</span>
+    </button>
+  </div>
+</header>
+
+<main>
+  <section class="contact-section">
+    <div class="container">
+      <h2>Contáctanos</h2>
+
+      <div class="section-wrap narrow">
+        <div class="contact-grid">
+          <div class="contact-blurb card-flat">
+            <h3 class="mini-title">Soporte rápido</h3>
+            <p class="muted">Escríbenos y te respondemos en poco tiempo. También coordinamos por correo.</p>
+            <ul class="contact-list">
+              <li><span>📨</span><span>soporte@vivastore.example</span></li>
+              <li><span>⏱</span><span>Lun a Sáb, 9:00–18:00</span></li>
+              <li><span>📍</span><span>LatAm · Atención 100% online</span></li>
+            </ul>
+          </div>
+
+          <form id="contact-form" class="card-flat contact-card">
+            <div class="form-row">
+              <div class="field">
+                <label class="lbl">Nombre</label>
+                <input id="c-name" type="text" placeholder="Tu nombre" required>
+              </div>
+              <div class="field">
+                <label class="lbl">Correo</label>
+                <input id="c-email" type="email" placeholder="tucorreo@ejemplo.com" required>
+              </div>
+            </div>
+
+            <div class="field">
+              <label class="lbl">Asunto (opcional)</label>
+              <input id="c-subject" type="text" placeholder="Tema del mensaje">
+            </div>
+
+            <div class="field">
+              <label class="lbl">Mensaje</label>
+              <textarea id="c-msg" rows="5" placeholder="¿En qué podemos ayudarte?" required></textarea>
+            </div>
+
+            <div class="form-actions">
+              <button type="submit" class="btn btn-primary">Enviar</button>
+              <p id="contact-feedback" class="feedback" aria-live="polite"></p>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- Carrito -->
+<aside id="cart-panel" class="cart-panel" aria-hidden="true">
+  <div class="cart-header">
+    <h3>Tu carrito</h3><button id="close-cart" class="icon-x" aria-label="Cerrar">✕</button>
+  </div>
+  <div id="cart-items" class="cart-items"></div>
+  <div class="cart-footer">
+    <div class="cart-total"><span>Total</span><strong id="cart-total">—</strong></div>
+    <div class="cart-actions">
+      <button id="clear-cart" class="btn btn-ghost">Vaciar carrito</button>
+      <button id="checkout" class="btn btn-primary">Realizar compra</button>
+    </div>
+  </div>
+</aside>
+<div id="overlay" class="overlay" aria-hidden="true"></div>
+<div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+<footer class="site-footer">
+  <div class="container footer-nav">
+    <ul class="footer-links">
+      <li><a href="sobre.html">Sobre nosotros</a></li>
+      <li><a href="contacto.html">Contáctanos</a></li>
+      <li><a href="politica.html">Política de Privacidad</a></li>
+    </ul>
+  </div>
+  <div class="container footer-legal">
+    <p class="muted">© 2025 VivaStore. Todos los derechos reservados.</p>
+  </div>
+</footer>
+
+<script src="./script.js"></script>
 </body>
 </html>
