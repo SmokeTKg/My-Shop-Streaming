@@ -179,3 +179,36 @@ document.addEventListener('DOMContentLoaded', () => {
     const el=$(a.getAttribute('href')); if(!el) return; e.preventDefault(); el.scrollIntoView({behavior:'smooth',block:'start'});
   });
 });
+// === MAPA: título de la card -> archivo en /img ===
+const IMG = {
+  'Netflix':        'img/netflix.png',
+  'Spotify Premium':'img/spotify.png',
+  'Disney+':        'img/disneyplus.png',
+  'HBO Max':        'img/hbomax.png',
+  'Prime Video':    'img/primevideo.png',
+  'Paramount+':     'img/paramount.png',
+  'ViX Premium':    'img/vix.png',
+};
+
+(function () {
+  const grid = document.getElementById('products-grid');
+  if (!grid) return;
+
+  function setImgs() {
+    grid.querySelectorAll('.card').forEach(card => {
+      const title = card.querySelector('h3, .title, .card-title')?.textContent?.trim();
+      const media = card.querySelector('.media, .card-media, .product-media');
+      const src   = title && IMG[title];
+      if (media && src) {
+        media.style.backgroundImage  = `url('${src}')`;
+        media.style.backgroundSize   = 'contain';
+        media.style.backgroundRepeat = 'no-repeat';
+        media.style.backgroundPosition = 'center';
+      }
+    });
+  }
+
+  setImgs();
+  // por si tu JS vuelve a renderizar la grilla
+  new MutationObserver(setImgs).observe(grid, { childList: true, subtree: true });
+})();
