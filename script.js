@@ -1,4 +1,4 @@
-/* VivaStore — Opiniones blog + Contacto fijo (resto igual) */
+/* VivaStore — Productos, Carrito, Reseñas y Contacto */
 const PRODUCTS = [
   { id:'netflix',  name:'Netflix Premium 1 mes',  price: 6.99, img:'https://images.unsplash.com/photo-1589405858862-2ac9cbb41321?w=800&q=80&auto=format&fit=crop' },
   { id:'spotify',  name:'Spotify Premium 1 mes',  price: 3.49, img:'https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=800&q=80&auto=format&fit=crop' },
@@ -15,6 +15,7 @@ const CUR=detectCur();
 const fmt=(n)=>new Intl.NumberFormat(undefined,{minimumFractionDigits:0,maximumFractionDigits:2}).format(n);
 const price=(usd)=>`${CUR.symbol}${fmt(usd*CUR.rate)}`;
 
+/* Carrito */
 const STORE='vivastore_cart_v1';
 let cart=JSON.parse(localStorage.getItem(STORE)||'[]');
 const save=()=>localStorage.setItem(STORE,JSON.stringify(cart));
@@ -34,6 +35,7 @@ function renderProducts(){
     </article>`).join('');
 }
 
+/* Panel de carrito */
 const overlay=$('#overlay'), panel=$('#cart-panel'), badge=$('#cart-badge');
 const itemsBox=$('#cart-items'), totalBox=$('#cart-total');
 const openCart=()=>{panel?.classList.add('open');overlay?.classList.add('show');panel?.setAttribute('aria-hidden','false');};
@@ -126,7 +128,7 @@ document.addEventListener('DOMContentLoaded',()=>{
 
   $('#btn-cart')?.addEventListener('click',openCart);
   $('#close-cart')?.addEventListener('click',closeCart);
-  overlay?.addEventListener('click',closeCart);
+  $('#overlay')?.addEventListener('click',closeCart);
 
   $('#products-grid')?.addEventListener('click',e=>{
     const btn=e.target.closest('.add-btn'); if(!btn) return;
@@ -148,7 +150,7 @@ document.addEventListener('DOMContentLoaded',()=>{
     alert(`¡Gracias! Total: ${price(cartTotalUSD())}\n(Ejemplo: integra tu checkout/WhatsApp aquí)`); cart=[]; save(); updateCartUI(); closeCart();
   });
 
-  // Estrellas + ayuda + contador
+  /* Estrellas + contador */
   let rating=0; const stars=$$('#stars span'); const help=$('#r-help');
   const labels={0:'Sin calificación',1:'Muy malo',2:'Regular',3:'Bien',4:'Muy bien',5:'Excelente'};
   const paint=(n)=>stars.forEach(s=>s.classList.toggle('active',+s.dataset.val<=n));
@@ -167,11 +169,12 @@ document.addEventListener('DOMContentLoaded',()=>{
     const name=$('#r-name').value;
     const text=$('#r-text').value.trim(); if(!text) return;
     const arr=getReviews(); arr.push({name, text, rating, date: Date.now()});
-    localStorage.setItem(REV_KEY,JSON.stringify(arr));
+    setReviews(arr);
     $('#r-text').value=''; $('#r-name').value=''; rating=0; paint(0); setHelp(0); if(cnt) cnt.textContent='0/400';
     renderReviews(); renderRatingSummary(); toast('¡Gracias por tu reseña!');
   });
 
+  /* Form de contacto */
   const cform=$('#contact-form');
   if(cform){
     cform.addEventListener('submit',e=>{

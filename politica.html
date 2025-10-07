@@ -1,9 +1,9 @@
 <!doctype html>
 <html lang="es">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Política de Privacidad | VivaStore</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Política de Privacidad — VivaStore</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="./styles.css">
 </head>
@@ -14,25 +14,77 @@
     <nav class="nav">
       <a href="index.html#productos">Productos</a>
       <a href="index.html#reseñas">Reseñas</a>
-      <a href="contacto.html">Contacto</a>
+      <a href="index.html#contacto">Contacto</a>
     </nav>
-    <a class="icon-btn" href="index.html#productos">🛒</a>
+    <button id="btn-cart" class="icon-btn" aria-label="Abrir carrito">🛒<span id="cart-badge" class="badge">0</span></button>
   </div>
 </header>
 
-<main class="container policy">
-  <h1>Política de Privacidad</h1>
-  <p>Usamos tus datos solo para gestionar pedidos, soporte y mejoras del servicio. No vendemos ni compartimos datos personales sin tu consentimiento.</p>
-  <h2>Datos que recopilamos</h2>
-  <p>Nombre, correo y mensajes de soporte.</p>
-  <h2>Seguridad</h2>
-  <p>Aplicamos medidas técnicas y organizativas para proteger la información.</p>
-  <h2>Contacto</h2>
-  <p>Dudas o solicitudes: usa el formulario de contacto.</p>
+<main>
+  <section class="policy-hero">
+    <div class="container">
+      <h1>Política de Privacidad</h1>
+      <p class="muted">Cuidamos tus datos. Resumen claro y corto.</p>
+    </div>
+  </section>
+
+  <section class="policy-wrap">
+    <div class="container policy-grid">
+      <article class="policy-content" style="grid-column:1 / -1">
+        <section class="policy-card">
+          <h2>Uso de datos</h2>
+          <p>Usamos tu información para gestionar pedidos, soporte y mejoras del servicio.
+             No vendemos ni compartimos datos personales sin tu consentimiento.</p>
+        </section>
+
+        <section class="policy-card">
+          <h2>Datos que recopilamos</h2>
+          <ul>
+            <li>Nombre y correo para contacto.</li>
+            <li>Mensajes que envías al soporte.</li>
+            <li>Datos de compra (producto, importe, fecha). Nunca guardamos datos de tarjeta.</li>
+          </ul>
+        </section>
+
+        <section class="policy-card">
+          <h2>Seguridad</h2>
+          <p>Cifrado (HTTPS), control de accesos y copias de seguridad.</p>
+        </section>
+
+        <section class="policy-card">
+          <h2>Contacto</h2>
+          <p>Escríbenos a <b>soporte@vivastore.example</b> o desde el
+            <a href="index.html#contacto">formulario de contacto</a>.
+          </p>
+        </section>
+      </article>
+    </div>
+  </section>
 </main>
 
+<!-- Carrito -->
+<aside id="cart-panel" class="cart-panel" aria-hidden="true">
+  <div class="cart-header">
+    <h3>Tu carrito</h3><button id="close-cart" class="icon-x" aria-label="Cerrar">✕</button>
+  </div>
+  <div id="cart-items" class="cart-items"></div>
+  <div class="cart-footer">
+    <div class="cart-total"><span>Total</span><strong id="cart-total">—</strong></div>
+    <div class="cart-actions">
+      <button id="clear-cart" class="btn btn-ghost">Vaciar carrito</button>
+      <button id="checkout" class="btn btn-primary">Realizar compra</button>
+    </div>
+  </div>
+</aside>
+<div id="overlay" class="overlay" aria-hidden="true"></div>
+<div id="toast" class="toast" role="status" aria-live="polite"></div>
+
 <footer class="site-footer">
-  <div class="container"><p>© 2025 VivaStore.</p></div>
+  <div class="container footer-legal">
+    <p class="muted">© 2025 VivaStore. Todos los derechos reservados.</p>
+  </div>
 </footer>
+
+<script src="./script.js"></script>
 </body>
 </html>

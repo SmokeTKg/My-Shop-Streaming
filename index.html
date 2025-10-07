@@ -38,7 +38,7 @@
   <section id="productos" class="productos-section">
     <div class="container">
       <h2>Elige tu plan</h2>
-      <div id="products-grid" class="products-grid"></div>
+      <div id="products-grid" class="products-grid"><!-- render JS --></div>
     </div>
   </section>
 
@@ -88,13 +88,13 @@
             </div>
           </form>
 
-          <div id="reviews-list" class="reviews-list"></div>
+          <div id="reviews-list" class="reviews-list"><!-- render JS --></div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Contacto -->
+  <!-- Contáctanos (abajo) -->
   <section id="contacto" class="contact-section">
     <div class="container">
       <h2>Contáctanos</h2>
@@ -103,10 +103,11 @@
         <div class="contact-grid">
           <div class="contact-blurb card-flat">
             <h3 class="mini-title">Soporte rápido</h3>
-            <p class="muted">Escríbenos y te respondemos en poco tiempo. También coordinamos por correo.</p>
+            <p class="muted">Te respondemos en poco tiempo. También coordinamos por correo.</p>
             <ul class="contact-list">
-              <li><span>📨</span><span>Soporte: <b>soporte@vivastore.example</b></span></li>
-              <li><span>⏱</span><span>Horario: <b>Lun a Sáb, 9:00–18:00</b></span></li>
+              <li><span>📨</span><span>soporte@vivastore.example</span></li>
+              <li><span>⏱</span><span>Lun a Sáb, 9:00–18:00</span></li>
+              <li><span>📍</span><span>LatAm · Atención 100% online</span></li>
             </ul>
           </div>
 
@@ -129,7 +130,7 @@
 
             <div class="field">
               <label class="lbl">Mensaje</label>
-              <textarea id="c-msg" rows="4" placeholder="¿En qué podemos ayudarte?" required></textarea>
+              <textarea id="c-msg" rows="5" placeholder="Cuéntanos en qué podemos ayudarte…" required></textarea>
             </div>
 
             <div class="form-actions">
@@ -160,14 +161,31 @@
 <div id="overlay" class="overlay" aria-hidden="true"></div>
 <div id="toast" class="toast" role="status" aria-live="polite"></div>
 
+<!-- Footer -->
 <footer class="site-footer">
-  <div class="container">
+  <div class="container footer-top">
+    <div>
+      <h4>Sobre VivaStore</h4>
+      <ul>
+        <li><a href="sobre.html">Sobre nosotros</a></li>
+        <li><a href="#contacto">Contáctanos</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Comprar</h4>
+      <ul>
+        <li><a href="#productos">Cómo comprar</a></li>
+        <li><a href="politica.html">Política de Privacidad</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="container footer-legal">
+    <p class="muted">
+      Puedes darte de baja en cualquier momento. Visita el apartado
+      <a href="politica.html">Política de Privacidad</a> para más información.
+    </p>
     <p>© 2025 VivaStore. Todos los derechos reservados.</p>
-    <nav>
-      <a href="politica.html">Política de Privacidad</a>
-      <a href="sobre.html">Sobre nosotros</a>
-      <a href="contacto.html">Contacto</a>
-    </nav>
   </div>
 </footer>
 
