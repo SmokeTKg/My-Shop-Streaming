@@ -204,11 +204,4 @@ input:focus,textarea:focus{border-color:#3a4566;box-shadow:0 0 0 3px rgba(81,123
 @media (max-width:420px){
   .btn{height:44px}.icon-btn{width:42px;height:42px}.cart-panel{width:100%}
 }
-#products-grid .media,
-#products-grid .card-media,
-#products-grid .product-media{
-  background-size: contain;
-  background-position: center;
-  background-repeat: no-repeat;
-}
 
