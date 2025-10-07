@@ -181,13 +181,13 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 // === MAPA: título de la card -> archivo en /img ===
 const IMG = {
-  'Netflix':        'img/netflix.png',
-  'Spotify Premium':'img/spotify.png',
-  'Disney+':        'img/disneyplus.png',
+  'Netflix':        'img/netflix.jpg',
+  'Spotify Premium':'img/spotify.jpg',
+  'Disney+':        'img/disneyplus.jpg',
   'HBO Max':        'img/hbomax.png',
-  'Prime Video':    'img/primevideo.png',
-  'Paramount+':     'img/paramount.png',
-  'ViX Premium':    'img/vix.png',
+  'Prime Video':    'img/primevideo.jpg',
+  'Paramount+':     'img/paramount.jpg',
+  'ViX Premium':    'img/vix.jpg',
 };
 
 (function () {
