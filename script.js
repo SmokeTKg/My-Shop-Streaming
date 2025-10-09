@@ -6,15 +6,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const $$ = s => document.querySelectorAll(s);
   const toast = $('#toast');
 
-  const showToast = (m) => {
-  if (!toast) return;
-  toast.innerHTML = `<span>✔️ ${m}</span>`;
-  toast.classList.remove('show');
-  void toast.offsetWidth;
-  toast.classList.add('show');
-  setTimeout(() => toast.classList.remove('show'), 2200);
-};
-
   /* === Moneda forzada para toda la web (USD) === */
   const nf = new Intl.NumberFormat('en-US', { style:'currency', currency:'USD' });
   const fmt = (usd) => nf.format(usd);
