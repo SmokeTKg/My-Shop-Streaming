@@ -4,21 +4,45 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>VivaStore — Streaming Premium</title>
+    <!-- SEO y vista previa profesional -->
+  <meta name="description" content="Compra suscripciones de streaming como Netflix, Spotify, Disney+, HBO Max, Prime Video, Paramount+ y ViX al mejor precio. Tienda oficial VivaStore.">
+  <meta name="keywords" content="VivaStore, streaming, Netflix, Spotify, Disney+, HBO Max, Prime Video, Paramount+, ViX, cuentas premium, suscripciones, planes baratos">
+  <meta name="author" content="VivaStore">
+
+  <!-- Open Graph (Facebook / WhatsApp / Instagram) -->
+  <meta property="og:title" content="VivaStore — Streaming Premium al Mejor Precio">
+  <meta property="og:description" content="Netflix, Disney+, Spotify, HBO Max, Prime Video y más. Compra cuentas premium al mejor precio en VivaStore.">
+  <meta property="og:image" content="./img/netflix.jpg">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://smoketkg.github.io/My-Shop-Streaming/">
+
+  <!-- Twitter / X vista previa -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="VivaStore — Streaming Premium al Mejor Precio">
+  <meta name="twitter:description" content="Netflix, Disney+, Spotify, HBO Max y más en un solo lugar.">
+  <meta name="twitter:image" content="./img/netflix.jpg">
+
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="./styles.css">
+  <!-- Librería AOS (para animaciones al hacer scroll) -->
+<link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
+<script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
 </head>
 <body>
 <header class="site-header">
   <div class="container header-inner">
     <a class="brand" href="index.html">Viva<span>Store</span></a>
-    <nav class="nav">
-      <a href="#productos">Productos</a>
-      <a href="#reseñas">Reseñas</a>
-      <a href="contacto.html">Contacto</a>
-    </nav>
-    <button id="btn-cart" class="icon-btn" aria-label="Abrir carrito">
-      🛒<span id="cart-badge" class="badge">0</span>
-    </button>
+    <!-- Menú hamburguesa -->
+<button id="menu-toggle" class="icon-btn" aria-label="Abrir menú">☰</button>
+<nav class="nav" id="main-nav">
+  <a href="#productos">Productos</a>
+  <a href="#reseñas">Reseñas</a>
+  <a href="contacto.html">Contacto</a>
+</nav>
+
+<button id="btn-cart" class="icon-btn" aria-label="Abrir carrito">
+  🛒<span id="cart-badge" class="badge">0</span>
+</button>
   </div>
 </header>
 

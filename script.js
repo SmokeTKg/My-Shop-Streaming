@@ -17,31 +17,32 @@ document.addEventListener('DOMContentLoaded', () => {
   const nf = new Intl.NumberFormat('en-US', { style:'currency', currency:'USD' });
   const fmt = (usd) => nf.format(usd);
 
-  /* Productos */
-  const products = [
-    { id:'netflix',   name:'Netflix',          usd:5.49 },
-    { id:'spotify',   name:'Spotify Premium',  usd:3.49 },
-    { id:'disney',    name:'Disney+',          usd:5.49 },
-    { id:'hbomax',    name:'HBO Max',          usd:6.49 },
-    { id:'prime',     name:'Prime Video',      usd:4.49 },
-    { id:'paramount', name:'Paramount+',       usd:4.99 },
-    { id:'vix',       name:'ViX Premium',      usd:3.99 },
-  ];
-  const productMap = Object.fromEntries(products.map(p => [p.id, p]));
+/* Productos */
+const products = [
+  { id:'netflix',   name:'Netflix',          usd:5.49, img:'./img/netflix.jpg' },
+  { id:'spotify',   name:'Spotify Premium',  usd:3.49, img:'./img/spotify.jpg' },
+  { id:'disney',    name:'Disney+',          usd:5.49, img:'./img/disneyplus.jpg' },
+  { id:'hbomax',    name:'HBO Max',          usd:6.49, img:'./img/hbomax.png' },
+  { id:'prime',     name:'Prime Video',      usd:4.49, img:'./img/primevideo.jpg' },
+  { id:'paramount', name:'Paramount+',       usd:4.99, img:'./img/paramount.jpg' },
+  { id:'vix',       name:'ViX Premium',      usd:3.99, img:'./img/vix.jpg' },
+];
+const productMap = Object.fromEntries(products.map(p => [p.id, p]));
 
   const renderProducts = () => {
-    const grid = $('#products-grid');
-    if (!grid) return;
-    grid.innerHTML = products.map(p => `
-      <article class="product-card">
-        <div class="product-media">${p.name}</div>
-        <h3 class="product-title">${p.name}</h3>
-        <div class="product-price">${fmt(p.usd)}</div>
-        <div class="product-actions">
-          <button class="btn btn-primary add-btn" data-id="${p.id}">Agregar</button>
-        </div>
-      </article>`).join('');
-  };
+  const grid = $('#products-grid');
+  if (!grid) return;
+  grid.innerHTML = products.map(p => `
+    <article class="product-card">
+      <img src="${p.img}" alt="${p.name}" class="product-img" loading="lazy">
+      <h3 class="product-title">${p.name}</h3>
+      <div class="product-price">${fmt(p.usd)}</div>
+      <div class="product-actions">
+        <button class="btn btn-primary add-btn" data-id="${p.id}">Agregar</button>
+      </div>
+    </article>
+  `).join('');
+};
 
   /* Carrito */
   const btnCart=$('#btn-cart'), panel=$('#cart-panel'), overlay=$('#overlay'),
@@ -178,4 +179,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const a=e.target.closest('a[href^="#"]'); if(!a) return;
     const el=$(a.getAttribute('href')); if(!el) return; e.preventDefault(); el.scrollIntoView({behavior:'smooth',block:'start'});
   });
+  // === Menú hamburguesa móvil ===
+const menuToggle = document.getElementById('menu-toggle');
+const nav = document.getElementById('main-nav');
+
+if (menuToggle && nav) {
+  menuToggle.addEventListener('click', () => {
+    nav.classList.toggle('nav-open');
+  });
+}
 });
