@@ -9,8 +9,8 @@ document.addEventListener('DOMContentLoaded', () => {
   const showToast = (m) => {
   if (!toast) return;
   toast.innerHTML = `<span>✔️ ${m}</span>`;
-  toast.classList.remove('show'); // reinicia animación
-  void toast.offsetWidth; // fuerza reflujo para reiniciar transición
+  toast.classList.remove('show');
+  void toast.offsetWidth;
   toast.classList.add('show');
   setTimeout(() => toast.classList.remove('show'), 2200);
 };

@@ -135,42 +135,96 @@ a.btn:active,
 .cart-total span{color:var(--muted)}
 .cart-actions{display:flex;gap:10px}
 
-/* Toast + badge anim */
-/* === Toast elegante fijo === */
+/* === Toast elegante, animado y responsivo === */
 .toast {
   position: fixed;
-  top: 18px;
-  right: 18px;
-  background: rgba(255, 255, 255, 0.08);
-  backdrop-filter: blur(8px);
+  bottom: 24px;
+  left: 24px;
+  background: rgba(30, 30, 30, 0.85);
+  backdrop-filter: blur(10px);
   color: #fff;
   font-weight: 600;
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  padding: 0.75rem 1.2rem;
-  border-radius: 10px;
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.35);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  padding: 0.9rem 1.3rem;
+  border-radius: 12px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
   opacity: 0;
-  transform: translateY(-10px);
-  transition: all 0.3s ease;
-  z-index: 9999;
+  transform: translateY(20px);
   pointer-events: none;
   font-size: 0.95rem;
+  z-index: 9999;
+  animation: toastFadeOut 2.4s ease forwards;
 }
 
+/* Cuando se muestra */
 .toast.show {
-  opacity: 1;
-  transform: translateY(0);
+  animation: toastFadeIn 0.4s ease-out, toastFadeOut 2.4s ease forwards;
 }
 
-/* Iconito dentro */
+/* Animaciones de entrada y salida */
+@keyframes toastFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes toastFadeOut {
+  0%, 80% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+}
+
+/* Contenido del toast */
 .toast span {
   display: flex;
   align-items: center;
   gap: 8px;
 }
 
-.toast.show{opacity:1;transform:translateY(0)}
-.bounce{animation:bounce .35s ease}@keyframes bounce{0%,100%{transform:scale(1)}50%{transform:scale(1.26)}}
+/* Ícono */
+.toast span::before {
+  content: "✔️";
+  font-size: 1.1rem;
+}
+
+/* Móvil — centrado */
+@media (max-width: 480px) {
+  .toast {
+    left: 50%;
+    bottom: 18px;
+    transform: translateX(-50%) translateY(20px);
+  }
+  @keyframes toastFadeIn {
+    from {
+      opacity: 0;
+      transform: translateX(-50%) translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+  }
+  @keyframes toastFadeOut {
+    0%, 80% {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+    100% {
+      opacity: 0;
+      transform: translateX(-50%) translateY(10px);
+    }
+  }
+}
 
 /* Opiniones */
 .reviews-section{padding:24px 0 10px}
@@ -460,4 +514,34 @@ input:focus,textarea:focus{border-color:#3a4566;box-shadow:0 0 0 3px rgba(81,123
 }
 .btn:hover {
   transform: scale(1.02);
+}
+/* --- Corrección: Hero solo centrado en móvil --- */
+.hero-copy {
+  text-align: left;
+}
+
+@media (max-width: 480px) {
+  .hero-copy {
+    text-align: center;
+  }
+}
+@media (max-width: 480px) {
+  .cart-panel {
+    width: 100%;
+    bottom: 0;
+    border-radius: 16px 16px 0 0;
+    padding-bottom: 20px;
+  }
+  .cart-footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    border-top: 1px solid var(--line);
+    background: var(--panel);
+    padding: 10px 14px;
+  }
+  .cart-items {
+    margin-bottom: 90px; /* deja espacio para footer fijo */
+  }
 }
