@@ -429,3 +429,47 @@ input:focus,textarea:focus{border-color:#3a4566;box-shadow:0 0 0 3px rgba(81,123
 .btn:hover {
   transform: scale(1.02);
 }
+/* =========================================================
+   Ajustes responsivos y mejoras visuales (solo móvil)
+   ========================================================= */
+
+/* 📱 Ajustar carrito en pantallas pequeñas */
+@media (max-width: 480px) {
+  .cart-panel {
+    width: 90%;
+    left: 5%;
+    right: 5%;
+    top: 10%;
+    bottom: auto;
+    border-radius: 20px;
+    transform: none;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+  }
+
+  .cart-footer {
+    position: static;
+    padding-bottom: 12px;
+  }
+}
+
+/* 💬 Reubicar el toast (mensaje de agregado) */
+.toast {
+  position: fixed;
+  top: 18px;
+  left: 50%;
+  transform: translateX(-50%) translateY(-20px);
+  background: var(--accent);
+  color: #fff;
+  padding: 0.9rem 1.2rem;
+  border-radius: 12px;
+  box-shadow: var(--shadow);
+  opacity: 0;
+  transition: var(--transition);
+  font-weight: 600;
+  z-index: 100;
+}
+
+.toast.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
