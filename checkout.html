@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>VivaStore — Pago</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./styles.css">
+  <style>
+    body{background:#0b0d13;color:#fff;font-family:"Poppins",system-ui}
+    .checkout-wrap{width:min(820px,92%);margin:24px auto;background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:18px}
+    .row{display:flex;gap:14px;align-items:stretch}
+    .col{flex:1}
+    h1{margin:0 0 8px}
+    .method{display:flex;align-items:center;justify-content:space-between;background:var(--panel-2);border:1px solid var(--line);border-radius:14px;padding:14px 16px;margin:10px 0;cursor:pointer;transition:var(--transition)}
+    .method:hover{background:rgba(255,255,255,.04)}
+    .method img{height:28px}
+    .summary{background:var(--panel-2);border:1px solid var(--line);border-radius:14px;padding:14px}
+    .muted{color:var(--muted)}
+    .btn-primary{width:100%}
+    @media (max-width:760px){.row{flex-direction:column}}
+  </style>
+</head>
+<body>
+  <div class="checkout-wrap">
+    <div class="row">
+      <div class="col">
+        <h1>Métodos de pago</h1>
+
+        <div class="method" id="pay-paypal">
+          <span>PayPal</span>
+          <img src="https://www.paypalobjects.com/webstatic/mktg/logo/pp_cc_mark_111x69.jpg" alt="PayPal">
+        </div>
+
+        <div class="method" id="pay-card">
+          <span>Tarjeta de crédito o débito</span>
+          <img src="https://upload.wikimedia.org/wikipedia/commons/4/41/Visa_2021.svg" alt="Tarjetas">
+        </div>
+
+        <div class="method" id="pay-crypto">
+          <span>Criptomonedas</span>
+          <img src="https://cryptologos.cc/logos/bitcoin-btc-logo.png?v=032" alt="Crypto">
+        </div>
+
+        <button class="btn btn-ghost" id="back">Volver al carrito</button>
+      </div>
+
+      <aside class="col summary">
+        <h3>Resumen</h3>
+        <p class="muted">El total mostrado se toma de tu carrito actual.</p>
+        <div style="display:flex;justify-content:space-between;margin:10px 0">
+          <span>Total</span><strong id="sum-total">—</strong>
+        </div>
+        <button class="btn btn-primary" id="continue">Continuar</button>
+      </aside>
+    </div>
+  </div>
+
+  <script>
+    // Cargar total desde localStorage (mismo cálculo que tu carrito)
+    try {
+      const cart = JSON.parse(localStorage.getItem('viva_cart')||'[]');
+      const prices = {
+        netflix: 5.49, spotify: 3.49, disney: 5.49, hbomax: 6.49, prime: 4.49, paramount: 4.99, vix: 3.99
+      };
+      const total = cart.reduce((s,i)=> s + (prices[i.id]||0)*i.qty, 0);
+      const nf = new Intl.NumberFormat('en-US',{style:'currency',currency:'USD'});
+      document.getElementById('sum-total').textContent = total? nf.format(total): '—';
+    } catch(e){}
+
+    // Redirecciones (puedes cambiarlas por integraciones reales)
+    document.getElementById('pay-paypal').onclick = () => {
+      // PayPal también permite pagar con tarjeta sin cuenta
+      window.location.href = 'https://www.paypal.com/checkoutnow';
+    };
+    document.getElementById('pay-card').onclick = () => {
+      // De inicio podemos usar el flujo de PayPal para tarjeta.
+      window.location.href = 'https://www.paypal.com/checkoutnow';
+    };
+    document.getElementById('pay-crypto').onclick = () => {
+      // Plataforma de pagos en cripto (ejemplo)
+      window.location.href = 'https://www.coinpayments.net/';
+    };
+
+    document.getElementById('continue').onclick = () => {
+      // Por si quieres forzar que elijan uno primero (ahora va a PayPal)
+      window.location.href = 'https://www.paypal.com/checkoutnow';
+    };
+
+    document.getElementById('back').onclick = () => history.back();
+  </script>
+</body>
+</html>

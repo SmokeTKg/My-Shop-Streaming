@@ -79,7 +79,7 @@ const productMap = Object.fromEntries(products.map(p => [p.id, p]));
   const addToCart=id=>{
     const p=productMap[id]; if(!p) return;
     const f=inCart(id); f? f.qty++ : cart.push({id,qty:1});
-    saveCart(); updateCartUI(); openCart(); showToast(`${p.name} agregado`);
+    saveCart(); updateCartUI(); openCart();
   };
 
   list?.addEventListener('click', e=>{
@@ -92,7 +92,9 @@ const productMap = Object.fromEntries(products.map(p => [p.id, p]));
   });
 
   $('#clear-cart')?.addEventListener('click', ()=>{ cart=[]; saveCart(); updateCartUI(); });
-  $('#checkout')?.addEventListener('click', ()=> showToast('Compra simulada ✔'));
+  $('#checkout')?.addEventListener('click', ()=>{
+  window.location.href = 'checkout.html';
+});
   $('#close-cart')?.addEventListener('click', closeCart);
   overlay?.addEventListener('click', closeCart);
   btnCart?.addEventListener('click', openCart);
