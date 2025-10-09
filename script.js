@@ -7,11 +7,13 @@ document.addEventListener('DOMContentLoaded', () => {
   const toast = $('#toast');
 
   const showToast = (m) => {
-    if (!toast) return;
-    toast.textContent = m;
-    toast.classList.add('show');
-    setTimeout(()=>toast.classList.remove('show'), 1800);
-  };
+  if (!toast) return;
+  toast.innerHTML = `<span>✔️ ${m}</span>`;
+  toast.classList.remove('show'); // reinicia animación
+  void toast.offsetWidth; // fuerza reflujo para reiniciar transición
+  toast.classList.add('show');
+  setTimeout(() => toast.classList.remove('show'), 2200);
+};
 
   /* === Moneda forzada para toda la web (USD) === */
   const nf = new Intl.NumberFormat('en-US', { style:'currency', currency:'USD' });
@@ -84,11 +86,10 @@ const productMap = Object.fromEntries(products.map(p => [p.id, p]));
   };
 
   const addToCart=id=>{
-  const p=productMap[id]; if(!p) return;
-  const f=inCart(id); f? f.qty++ : cart.push({id,qty:1});
-  saveCart(); updateCartUI(); openCart();
-  // showToast(`${p.name} agregado`);
-};
+    const p=productMap[id]; if(!p) return;
+    const f=inCart(id); f? f.qty++ : cart.push({id,qty:1});
+    saveCart(); updateCartUI(); openCart(); showToast(`${p.name} agregado`);
+  };
 
   list?.addEventListener('click', e=>{
     const row=e.target.closest('.cart-row'); if(!row) return;
