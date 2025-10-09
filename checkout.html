@@ -18,6 +18,10 @@
     .summary{background:var(--panel-2);border:1px solid var(--line);border-radius:14px;padding:14px}
     .muted{color:var(--muted)}
     .btn-primary{width:100%}
+    /* Estilo de selección */
+    .method.active{ outline:2px solid var(--accent); box-shadow:0 0 0 4px rgba(225,29,47,.15); }
+    .method .check{ margin-left:10px;font-size:18px;opacity:.85 }
+    .btn-primary[disabled]{opacity:.5;cursor:not-allowed}
     @media (max-width:760px){.row{flex-direction:column}}
   </style>
 </head>
@@ -27,17 +31,18 @@
       <div class="col">
         <h1>Métodos de pago</h1>
 
-        <div class="method" id="pay-paypal">
+        <!-- Solo seleccionan; no redirigen aquí -->
+        <div class="method" data-method="paypal">
           <span>PayPal</span>
           <img src="https://www.paypalobjects.com/webstatic/mktg/logo/pp_cc_mark_111x69.jpg" alt="PayPal">
         </div>
 
-        <div class="method" id="pay-card">
+        <div class="method" data-method="card">
           <span>Tarjeta de crédito o débito</span>
           <img src="https://upload.wikimedia.org/wikipedia/commons/4/41/Visa_2021.svg" alt="Tarjetas">
         </div>
 
-        <div class="method" id="pay-crypto">
+        <div class="method" data-method="crypto">
           <span>Criptomonedas</span>
           <img src="https://cryptologos.cc/logos/bitcoin-btc-logo.png?v=032" alt="Crypto">
         </div>
@@ -51,43 +56,66 @@
         <div style="display:flex;justify-content:space-between;margin:10px 0">
           <span>Total</span><strong id="sum-total">—</strong>
         </div>
-        <button class="btn btn-primary" id="continue">Continuar</button>
+        <button class="btn btn-primary" id="continue" disabled>Continuar</button>
       </aside>
     </div>
   </div>
 
   <script>
-    // Cargar total desde localStorage (mismo cálculo que tu carrito)
+    // ==== TOTAL desde localStorage (igual que en el carrito) ====
     try {
       const cart = JSON.parse(localStorage.getItem('viva_cart')||'[]');
-      const prices = {
-        netflix: 5.49, spotify: 3.49, disney: 5.49, hbomax: 6.49, prime: 4.49, paramount: 4.99, vix: 3.99
-      };
+      const prices = { netflix:5.49, spotify:3.49, disney:5.49, hbomax:6.49, prime:4.49, paramount:4.99, vix:3.99 };
       const total = cart.reduce((s,i)=> s + (prices[i.id]||0)*i.qty, 0);
       const nf = new Intl.NumberFormat('en-US',{style:'currency',currency:'USD'});
-      document.getElementById('sum-total').textContent = total? nf.format(total): '—';
+      document.getElementById('sum-total').textContent = total ? nf.format(total) : '—';
     } catch(e){}
 
-    // Redirecciones (puedes cambiarlas por integraciones reales)
-    document.getElementById('pay-paypal').onclick = () => {
-      // PayPal también permite pagar con tarjeta sin cuenta
-      window.location.href = 'https://www.paypal.com/checkoutnow';
-    };
-    document.getElementById('pay-card').onclick = () => {
-      // De inicio podemos usar el flujo de PayPal para tarjeta.
-      window.location.href = 'https://www.paypal.com/checkoutnow';
-    };
-    document.getElementById('pay-crypto').onclick = () => {
-      // Plataforma de pagos en cripto (ejemplo)
-      window.location.href = 'https://www.coinpayments.net/';
-    };
+    // ==== Selección de método (no redirige) ====
+    const methodEls = document.querySelectorAll('.method[data-method]');
+    const continueBtn = document.getElementById('continue');
+    let selectedMethod = null;
 
-    document.getElementById('continue').onclick = () => {
-      // Por si quieres forzar que elijan uno primero (ahora va a PayPal)
-      window.location.href = 'https://www.paypal.com/checkoutnow';
-    };
+    methodEls.forEach(el => {
+      el.addEventListener('click', () => {
+        methodEls.forEach(m => m.classList.remove('active'));
+        el.classList.add('active');
+        selectedMethod = el.dataset.method;
+        continueBtn.removeAttribute('disabled');
 
-    document.getElementById('back').onclick = () => history.back();
+        // Check visual ✔
+        if (!el.querySelector('.check')) {
+          const ok = document.createElement('span');
+          ok.className = 'check';
+          ok.textContent = '✔';
+          el.appendChild(ok);
+        }
+        methodEls.forEach(m => {
+          if (m !== el) m.querySelector('.check')?.remove();
+        });
+      });
+    });
+
+    // ==== Redirección al pulsar CONTINUAR, según el método elegido ====
+    continueBtn.addEventListener('click', () => {
+      if (!selectedMethod) return;
+
+      switch (selectedMethod) {
+        case 'paypal':
+          window.location.href = 'https://www.paypal.com/checkoutnow';
+          break;
+        case 'card':
+          // De inicio reutilizamos PayPal para tarjetas; luego podemos integrar Stripe
+          window.location.href = 'https://www.paypal.com/checkoutnow';
+          break;
+        case 'crypto':
+          window.location.href = 'https://www.coinpayments.net/';
+          break;
+      }
+    });
+
+    // Volver
+    document.getElementById('back').addEventListener('click', () => history.back());
   </script>
 </body>
 </html>
