@@ -1,170 +1,254 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>VivaStore — Finalizar compra</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Finalizar compra — VivaStore</title>
   <link rel="stylesheet" href="./styles.css">
   <style>
     body {
       background: var(--bg);
       color: var(--text);
-      font-family: "Poppins", system-ui;
+      font-family: "Poppins", sans-serif;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
     }
-    .checkout-container {
-      width: min(800px, 92%);
-      margin: 40px auto;
+
+    main {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      padding: 32px 16px;
+    }
+
+    .checkout-card {
       background: var(--panel);
       border: 1px solid var(--line);
       border-radius: var(--radius);
-      padding: 24px;
       box-shadow: var(--shadow);
+      padding: 22px;
+      width: min(420px, 100%);
+      max-width: 100%;
+      animation: fadeIn 0.3s ease-in-out;
     }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
     h1 {
       text-align: center;
-      margin-bottom: 20px;
-      font-weight: 800;
+      font-size: 1.6rem;
+      margin-bottom: 1.2rem;
     }
-    .summary {
-      background: var(--panel-2);
-      border: 1px solid var(--line);
-      border-radius: 14px;
-      padding: 16px;
-      margin-bottom: 24px;
-    }
-    .summary-row {
+
+    .total-box {
       display: flex;
       justify-content: space-between;
       align-items: center;
+      background: var(--panel-2);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 12px 16px;
+      margin-bottom: 1.6rem;
+      font-size: 1rem;
+    }
+
+    .total-box strong {
+      color: #9ee3a1;
       font-size: 1.1rem;
     }
-    .payment-methods {
-      display: grid;
-      gap: 12px;
-      margin-bottom: 24px;
+
+    .methods {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 1.3rem;
     }
+
     .method {
       display: flex;
       justify-content: space-between;
       align-items: center;
       background: var(--panel-2);
       border: 1px solid var(--line);
-      border-radius: 14px;
-      padding: 14px 16px;
+      border-radius: 12px;
+      padding: 12px 14px;
+      transition: all 0.2s ease;
       cursor: pointer;
-      transition: var(--transition);
     }
-    .method:hover {
-      background: rgba(255,255,255,.03);
-    }
+
+    .method:hover,
     .method.active {
-      outline: 2px solid var(--accent);
-      box-shadow: 0 0 0 4px rgba(225, 29, 47, 0.15);
+      border-color: var(--accent);
+      box-shadow: 0 0 10px rgba(225, 29, 47, 0.35);
     }
+
+    .method span {
+      font-weight: 600;
+      font-size: 0.95rem;
+    }
+
     .method img {
-      height: 30px;
-      object-fit: contain;
+      width: 34px;
+      height: auto;
+      border-radius: 6px;
     }
-    .checkout-actions {
+
+    .actions {
       display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 12px;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 1.5rem;
     }
-    #back { flex: 1; }
-    #continue { flex: 1; }
-    @media (max-width: 600px) {
-      .checkout-actions { flex-direction: column-reverse; }
-      #back, #continue { width: 100%; }
+
+    .btn {
+      height: 48px;
+      font-size: 1rem;
+      font-weight: 600;
+    }
+
+    footer {
+      text-align: center;
+      padding: 18px 0;
+      border-top: 1px solid var(--line);
+      background: var(--panel);
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    /* 📱 Responsive especial para móvil */
+    @media (max-width: 480px) {
+      main {
+        padding: 20px 12px;
+      }
+
+      .checkout-card {
+        width: 100%;
+        padding: 18px;
+        border-radius: 16px;
+      }
+
+      h1 {
+        font-size: 1.3rem;
+      }
+
+      .total-box {
+        font-size: 0.95rem;
+        padding: 10px 14px;
+      }
+
+      .method {
+        padding: 10px 12px;
+      }
+
+      .method span {
+        font-size: 0.9rem;
+      }
+
+      .method img {
+        width: 28px;
+      }
+
+      .btn {
+        height: 46px;
+        font-size: 0.95rem;
+      }
     }
   </style>
 </head>
 <body>
-  <main class="checkout-container">
-    <h1>Finalizar compra</h1>
 
-    <div class="summary">
-      <div class="summary-row">
+  <main>
+    <div class="checkout-card">
+      <h1>Finalizar compra</h1>
+
+      <div class="total-box">
         <span>Total a pagar:</span>
-        <strong id="sum-total">—</strong>
+        <strong id="checkout-total">$0.00</strong>
       </div>
-    </div>
 
-    <h3>Métodos de pago</h3>
-    <div class="payment-methods">
-      <div class="method" data-method="paypal">
-        <span>PayPal</span>
-        <img src="./img/paypal.png" alt="PayPal">
-      </div>
-      <div class="method" data-method="crypto">
-        <span>Criptomonedas (Binance Pay)</span>
-        <img src="./img/binance.png" alt="Binance">
-      </div>
-      <div class="method" data-method="whatsapp">
-        <span>Pago directo por WhatsApp</span>
-        <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp" style="height:32px;">
-      </div>
-    </div>
+      <h3>Métodos de pago</h3>
+      <div class="methods">
+        <div class="method" data-method="paypal">
+          <span>PayPal</span>
+          <img src="./img/paypal.png" alt="PayPal">
+        </div>
 
-    <div class="checkout-actions">
-      <button id="back" class="btn btn-ghost">← Volver al carrito</button>
-      <button id="continue" class="btn btn-primary" disabled>Continuar</button>
+        <div class="method" data-method="binance">
+          <span>Criptomonedas (Binance Pay)</span>
+          <img src="./img/binance.png" alt="Binance Pay">
+        </div>
+
+        <div class="method" data-method="whatsapp">
+          <span>Pago directo por WhatsApp</span>
+          <img src="./img/whatsapp.png" alt="WhatsApp">
+        </div>
+      </div>
+
+      <div class="actions">
+        <button id="back-btn" class="btn btn-ghost">← Volver al carrito</button>
+        <button id="continue-btn" class="btn btn-primary">Continuar</button>
+      </div>
     </div>
   </main>
 
+  <footer>
+    © 2025 VivaStore — Todos los derechos reservados.
+  </footer>
+
   <script>
-    const phone = "+50432736285";
-    const nf = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' });
+    const totalEl = document.getElementById("checkout-total");
+    const savedCart = JSON.parse(localStorage.getItem("viva_cart") || "[]");
+    const products = {
+      netflix: 5.49,
+      spotify: 3.49,
+      disney: 5.49,
+      hbomax: 6.49,
+      prime: 4.49,
+      paramount: 4.99,
+      vix: 3.99
+    };
 
-    let total = 0;
-    let cart = [];
-    try {
-      cart = JSON.parse(localStorage.getItem('viva_cart') || '[]');
-      const prices = { netflix:5.49, spotify:3.49, disney:5.49, hbomax:6.49, prime:4.49, paramount:4.99, vix:3.99 };
-      total = cart.reduce((s, i) => s + (prices[i.id] || 0) * i.qty, 0);
-      document.getElementById('sum-total').textContent = total ? nf.format(total) : '—';
-    } catch(e) {}
+    // Calcular total
+    const total = savedCart.reduce((sum, item) => sum + (products[item.id] * item.qty), 0);
+    totalEl.textContent = `$${total.toFixed(2)}`;
 
-    const methods = document.querySelectorAll('.method');
-    const continueBtn = document.getElementById('continue');
+    // Seleccionar método de pago
+    const methods = document.querySelectorAll(".method");
     let selected = null;
 
     methods.forEach(m => {
-      m.addEventListener('click', () => {
-        methods.forEach(x => x.classList.remove('active'));
-        m.classList.add('active');
+      m.addEventListener("click", () => {
+        methods.forEach(x => x.classList.remove("active"));
+        m.classList.add("active");
         selected = m.dataset.method;
-        continueBtn.disabled = false;
       });
     });
 
-    continueBtn.addEventListener('click', () => {
-      if (!selected) return;
-
-      if (selected === 'paypal') {
-        window.location.href = 'https://www.paypal.com/checkoutnow';
-      } else if (selected === 'crypto') {
-        window.location.href = 'https://pay.binance.com/en';
-      } else if (selected === 'whatsapp') {
-        // Generar mensaje con detalle de productos
-        let message = "👋 Hola, quiero completar mi compra en VivaStore.%0A%0A🛍️ *Resumen del pedido:*%0A";
-        const prices = { netflix:5.49, spotify:3.49, disney:5.49, hbomax:6.49, prime:4.49, paramount:4.99, vix:3.99 };
-
-        cart.forEach(item => {
-          const name = item.id.charAt(0).toUpperCase() + item.id.slice(1);
-          const price = prices[item.id] || 0;
-          message += `• ${name} ×${item.qty} — ${nf.format(price * item.qty)}%0A`;
-        });
-
-        message += `%0A💰 *Total:* ${nf.format(total)}%0A💳 *Método:* Pago directo por WhatsApp%0A%0A¿Podrías ayudarme a finalizar el pedido?`;
-        const link = `https://wa.me/${phone.replace(/\D/g, '')}?text=${message}`;
-        window.open(link, "_blank");
-      }
+    // Volver al carrito
+    document.getElementById("back-btn").addEventListener("click", () => {
+      window.location.href = "index.html";
     });
 
-    document.getElementById('back').addEventListener('click', () => {
-      history.back();
+    // Continuar con el pago
+    document.getElementById("continue-btn").addEventListener("click", () => {
+      if (!selected) {
+        alert("Por favor selecciona un método de pago.");
+        return;
+      }
+
+      if (selected === "paypal") {
+        window.open("https://www.paypal.com", "_blank");
+      } else if (selected === "binance") {
+        window.open("https://pay.binance.com/", "_blank");
+      } else if (selected === "whatsapp") {
+        const mensaje = encodeURIComponent(`Hola 👋, quiero finalizar mi compra por un total de $${total.toFixed(2)} USD.`);
+        window.open(`https://wa.me/50432736285?text=${mensaje}`, "_blank");
+      }
     });
   </script>
 </body>
