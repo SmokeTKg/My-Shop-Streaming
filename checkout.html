@@ -110,9 +110,12 @@
     }
 
     .method img {
-      width: 38px;
-      height: 38px;
+      width: 40px;
+      height: 40px;
       object-fit: contain;
+      border-radius: 8px;
+      background: #111;
+      padding: 4px;
     }
 
     .actions {
@@ -126,6 +129,35 @@
       height: 48px;
       font-size: 1rem;
       font-weight: 600;
+      border-radius: 12px;
+      border: none;
+      transition: background 0.3s, transform 0.2s;
+    }
+
+    .btn:hover {
+      transform: scale(1.03);
+    }
+
+    /* Colores dinámicos según el método */
+    .btn-primary.paypal-active {
+      background: linear-gradient(180deg, #0070ba, #005c9e);
+      color: #fff;
+    }
+
+    .btn-primary.binance-active {
+      background: linear-gradient(180deg, #f3ba2f, #d4a816);
+      color: #111;
+    }
+
+    .btn-primary.whatsapp-active {
+      background: linear-gradient(180deg, #25d366, #1daa5a);
+      color: #fff;
+    }
+
+    .btn-ghost {
+      background: transparent;
+      border: 1px solid var(--line);
+      color: var(--text);
     }
 
     footer {
@@ -139,50 +171,16 @@
 
     /* 📱 Responsive móvil */
     @media (max-width: 480px) {
-      header {
-        padding: 14px 0;
-      }
-
-      .brand {
-        font-size: 1.5rem;
-      }
-
-      main {
-        padding: 24px 12px;
-      }
-
-      .checkout-card {
-        padding: 20px;
-        border-radius: 16px;
-        width: 100%;
-      }
-
-      h1 {
-        font-size: 1.4rem;
-      }
-
-      .total-box {
-        padding: 10px 14px;
-        font-size: 0.95rem;
-      }
-
-      .method {
-        padding: 10px 12px;
-      }
-
-      .method img {
-        width: 30px;
-        height: 30px;
-      }
-
-      .btn {
-        height: 44px;
-        font-size: 0.95rem;
-      }
-
-      footer {
-        font-size: 0.75rem;
-      }
+      header { padding: 14px 0; }
+      .brand { font-size: 1.5rem; }
+      main { padding: 24px 12px; }
+      .checkout-card { padding: 20px; border-radius: 16px; width: 100%; }
+      h1 { font-size: 1.4rem; }
+      .total-box { padding: 10px 14px; font-size: 0.95rem; }
+      .method { padding: 10px 12px; }
+      .method img { width: 30px; height: 30px; }
+      .btn { height: 44px; font-size: 0.95rem; }
+      footer { font-size: 0.75rem; }
     }
   </style>
 </head>
@@ -234,19 +232,14 @@
     const totalEl = document.getElementById("checkout-total");
     const savedCart = JSON.parse(localStorage.getItem("viva_cart") || "[]");
     const products = {
-      netflix: 5.49,
-      spotify: 3.49,
-      disney: 5.49,
-      hbomax: 6.49,
-      prime: 4.49,
-      paramount: 4.99,
-      vix: 3.99
+      netflix: 5.49, spotify: 3.49, disney: 5.49, hbomax: 6.49, prime: 4.49, paramount: 4.99, vix: 3.99
     };
 
     const total = savedCart.reduce((sum, item) => sum + (products[item.id] * item.qty), 0);
     totalEl.textContent = `$${total.toFixed(2)}`;
 
     const methods = document.querySelectorAll(".method");
+    const continueBtn = document.getElementById("continue-btn");
     let selected = null;
 
     methods.forEach(m => {
@@ -254,6 +247,22 @@
         methods.forEach(x => x.classList.remove("active"));
         m.classList.add("active");
         selected = m.dataset.method;
+
+        // Reset estilos del botón
+        continueBtn.classList.remove("paypal-active", "binance-active", "whatsapp-active");
+
+        if (selected === "paypal") {
+          continueBtn.classList.add("paypal-active");
+          continueBtn.textContent = "Pagar con PayPal 💳";
+        } else if (selected === "binance") {
+          continueBtn.classList.add("binance-active");
+          continueBtn.textContent = "Pagar con Binance Pay 💰";
+        } else if (selected === "whatsapp") {
+          continueBtn.classList.add("whatsapp-active");
+          continueBtn.textContent = "Pagar por WhatsApp 💬";
+        } else {
+          continueBtn.textContent = "Continuar";
+        }
       });
     });
 
@@ -261,7 +270,7 @@
       window.location.href = "index.html";
     });
 
-    document.getElementById("continue-btn").addEventListener("click", () => {
+    continueBtn.addEventListener("click", () => {
       if (!selected) {
         alert("Por favor selecciona un método de pago.");
         return;
@@ -272,7 +281,9 @@
       } else if (selected === "binance") {
         window.open("https://pay.binance.com/", "_blank");
       } else if (selected === "whatsapp") {
-        const mensaje = encodeURIComponent(`Hola 👋, quiero finalizar mi compra por un total de $${total.toFixed(2)} USD.`);
+        const mensaje = encodeURIComponent(
+          `Hola 👋, quiero finalizar mi compra en *VivaStore* por un total de *$${total.toFixed(2)} USD*.\n\nPor favor, indícame cómo puedo completar el pago.`
+        );
         window.open(`https://wa.me/50432736285?text=${mensaje}`, "_blank");
       }
     });
