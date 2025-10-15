@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pago confirmado — VivaStore</title>
+  <style>
+    :root {
+      --accent: #e11d2f;
+      --bg: radial-gradient(circle at top, #0c0e13, #050609);
+      --panel: rgba(255,255,255,0.05);
+      --line: rgba(255,255,255,0.1);
+      --text: #f5f5f5;
+      --muted: #a5acb8;
+      --success: #4be780;
+      --whatsapp: #25d366;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: "Poppins", sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 30px 15px;
+    }
+
+    .box {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 35px 30px;
+      max-width: 420px;
+      width: 100%;
+      text-align: center;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+      animation: fadeIn 0.6s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(15px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .brand {
+      font-size: 2.2rem;
+      font-weight: 800;
+      text-decoration: none;
+      color: #fff;
+      display: inline-block;
+      margin-bottom: 10px;
+    }
+
+    .brand span { color: var(--accent); }
+
+    .icon {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background: rgba(75, 231, 128, 0.1);
+      border: 2px solid var(--success);
+      color: var(--success);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.8rem;
+      margin: 15px auto 20px;
+      animation: pop 0.6s ease;
+    }
+
+    @keyframes pop {
+      0% { transform: scale(0.5); opacity: 0; }
+      80% { transform: scale(1.1); opacity: 1; }
+      100% { transform: scale(1); }
+    }
+
+    h1 {
+      font-size: 1.6rem;
+      margin-bottom: 6px;
+      color: var(--success);
+    }
+
+    p {
+      color: var(--muted);
+      font-size: 0.95rem;
+      line-height: 1.5;
+      margin-bottom: 18px;
+    }
+
+    .summary {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 15px 18px;
+      text-align: left;
+      margin-bottom: 20px;
+    }
+
+    .summary div {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 6px;
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    .summary div:last-child {
+      margin-top: 8px;
+      font-weight: 600;
+      color: var(--success);
+    }
+
+    .btn {
+      width: 100%;
+      padding: 12px;
+      border-radius: 10px;
+      border: none;
+      font-size: 0.95rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: transform 0.25s ease, opacity 0.25s ease;
+      margin-top: 10px;
+    }
+
+    .btn:hover { transform: scale(1.03); }
+
+    .btn-primary {
+      background: linear-gradient(90deg, #e11d2f, #ff445c);
+      color: #fff;
+      box-shadow: 0 4px 14px rgba(225,29,47,0.4);
+    }
+
+    .btn-whatsapp {
+      background: var(--whatsapp);
+      color: #fff;
+    }
+
+    footer {
+      text-align: center;
+      font-size: 0.8rem;
+      color: #777;
+      margin-top: 25px;
+    }
+
+    @media (max-width: 480px) {
+      .box { padding: 28px 22px; }
+      .brand { font-size: 1.9rem; }
+      h1 { font-size: 1.4rem; }
+    }
+  </style>
+</head>
+<body>
+  <div class="box">
+    <a href="index.html" class="brand">Viva<span>Store</span></a>
+
+    <div class="icon">✔</div>
+    <h1>¡Pago confirmado!</h1>
+    <p id="thanks-text">Gracias por tu compra 🙌<br>Tu pedido ha sido procesado exitosamente.</p>
+
+    <div class="summary">
+      <div><span>Cliente:</span><span id="summary-name">-</span></div>
+      <div><span>Correo:</span><span id="summary-email">-</span></div>
+      <div><span>Total:</span><span id="summary-total">$0.00</span></div>
+    </div>
+
+    <button class="btn btn-primary" onclick="window.location.href='index.html'">Volver al inicio</button>
+    <button class="btn btn-whatsapp" onclick="contactWhatsApp()">Contactar por WhatsApp</button>
+  </div>
+
+  <footer>© 2025 VivaStore — Todos los derechos reservados.</footer>
+
+  <script>
+    // Obtener datos del usuario desde localStorage
+    const name = localStorage.getItem("viva_name") || "Cliente";
+    const email = localStorage.getItem("viva_email") || "-";
+    const total = localStorage.getItem("viva_total") || "0.00";
+
+    document.getElementById("summary-name").textContent = name;
+    document.getElementById("summary-email").textContent = email;
+    document.getElementById("summary-total").textContent = `$${total}`;
+
+    document.getElementById("thanks-text").innerHTML =
+      `Gracias <b>${name}</b> 👋<br>Tu pago de <b>$${total} USD</b> ha sido recibido correctamente.`;
+
+    function contactWhatsApp() {
+      const mensaje = encodeURIComponent(
+        `Hola 👋 soy ${name}, ya completé mi pago de $${total} USD en VivaStore.\nMi correo es ${email}.`
+      );
+      window.open(`https://wa.me/50432736285?text=${mensaje}`, "_blank");
+    }
+  </script>
+</body>
+</html>

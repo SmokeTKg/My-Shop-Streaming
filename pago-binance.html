@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pagar con Binance Pay — VivaStore</title>
+  <style>
+    :root {
+      --bg: radial-gradient(circle at top, #0c0e13, #050609);
+      --panel: rgba(255,255,255,0.05);
+      --line: rgba(255,255,255,0.1);
+      --binance: #f3ba2f;
+      --text: #f5f5f5;
+      --muted: #a5acb8;
+      --success: #4be780;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: "Poppins", sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    .box {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 30px;
+      max-width: 440px;
+      width: 100%;
+      text-align: center;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.45);
+      backdrop-filter: blur(10px);
+      animation: fadeIn 0.5s ease;
+    }
+
+    @keyframes fadeIn {
+      from {opacity: 0; transform: translateY(10px);}
+      to {opacity: 1; transform: translateY(0);}
+    }
+
+    h1 {
+      font-size: 1.6rem;
+      margin-bottom: 8px;
+    }
+
+    h2 {
+      color: var(--binance);
+      margin-bottom: 20px;
+    }
+
+    img.qr {
+      width: 200px;
+      height: 200px;
+      border-radius: 10px;
+      background: #fff;
+      object-fit: contain;
+      margin-bottom: 14px;
+    }
+
+    .info {
+      font-size: 0.95rem;
+      color: var(--muted);
+      margin-bottom: 10px;
+    }
+
+    .id-box {
+      background: rgba(243, 186, 47, 0.1);
+      border: 1px solid rgba(243, 186, 47, 0.3);
+      color: var(--binance);
+      font-weight: 600;
+      padding: 10px 14px;
+      border-radius: 8px;
+      display: inline-block;
+      margin-bottom: 12px;
+    }
+
+    .amount {
+      font-size: 1rem;
+      color: var(--muted);
+      margin-bottom: 22px;
+    }
+
+    /* ✅ Nueva sección de datos del cliente */
+    .details {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 12px;
+      padding: 16px 18px;
+      margin-bottom: 20px;
+      text-align: left;
+      color: var(--muted);
+      font-size: 0.9rem;
+      line-height: 1.6;
+    }
+
+    .details-header {
+      text-transform: uppercase;
+      font-size: 0.8rem;
+      color: var(--binance);
+      font-weight: 600;
+      margin-bottom: 10px;
+      letter-spacing: 0.5px;
+      border-bottom: 1px solid rgba(243,186,47,0.3);
+      padding-bottom: 6px;
+    }
+
+    .details-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin: 6px 0;
+    }
+
+    .details-item i {
+      color: var(--binance);
+      font-style: normal;
+      font-weight: 600;
+    }
+
+    .details-item span.value {
+      color: var(--text);
+      font-weight: 500;
+    }
+
+    .note {
+      background: rgba(255,255,255,0.05);
+      border-left: 4px solid var(--binance);
+      padding: 12px 16px;
+      font-size: 0.9rem;
+      color: var(--muted);
+      border-radius: 8px;
+      line-height: 1.5;
+      text-align: left;
+      margin-bottom: 18px;
+    }
+
+    .btn {
+      width: 100%;
+      padding: 12px;
+      border-radius: 10px;
+      border: none;
+      font-weight: 600;
+      font-size: 0.95rem;
+      cursor: pointer;
+      transition: transform 0.25s ease;
+    }
+
+    .btn:hover { transform: scale(1.03); }
+
+    .btn-primary {
+      background: var(--binance);
+      color: #000;
+      margin-bottom: 10px;
+    }
+
+    .btn-secondary {
+      background: transparent;
+      border: 1px solid var(--line);
+      color: var(--text);
+    }
+
+    footer {
+      text-align: center;
+      font-size: 0.8rem;
+      color: #666;
+      margin-top: 30px;
+    }
+  </style>
+</head>
+<body>
+  <div class="box">
+    <h1>Finaliza tu pago con</h1>
+    <h2>Binance Pay</h2>
+
+    <div class="info">Escanea este código</div>
+    <img src="./img/binance-qr.jpg" alt="QR Binance" class="qr">
+
+    <div class="info">O usa el siguiente ID:</div>
+    <div class="id-box">ID Binance: <b>814 634 609</b></div>
+
+    <div id="amount" class="amount">Total a pagar: $0.00 USD</div>
+
+    <!-- ✅ Caja de detalles mejorada -->
+    <div class="details" id="client-details">
+      <div class="details-header">Resumen del pedido</div>
+      <!-- Aquí se llenan los datos con JS -->
+    </div>
+
+    <div class="note">
+      ✅ Con cualquiera de estos datos puedes realizar el pago desde la app de Binance Pay.<br><br>
+      📸 Una vez realizado el pago, envía tu comprobante o ID de transacción a nuestro WhatsApp para validarlo.
+    </div>
+
+    <button class="btn btn-primary" id="btnWhatsApp">He realizado el pago (enviar comprobante)</button>
+    <button class="btn btn-secondary" onclick="window.location.href='checkout.html'">← Volver al checkout</button>
+  </div>
+
+  <footer>© 2025 VivaStore — Todos los derechos reservados.</footer>
+
+  <script>
+    // === Obtener datos desde la URL ===
+    const params = new URLSearchParams(window.location.search);
+    const total = params.get("total");
+    const name = params.get("name");
+    const email = params.get("email");
+    const items = params.get("items");
+
+    // Mostrar el total
+    document.getElementById("amount").textContent = `Total a pagar: $${parseFloat(total || 0).toFixed(2)} USD`;
+
+    // Rellenar los datos en el bloque elegante
+    document.getElementById("client-details").innerHTML += `
+      <div class="details-item"><i>👤</i> <b>Cliente:</b> <span class="value">${name || "-"}</span></div>
+      <div class="details-item"><i>✉️</i> <b>Correo:</b> <span class="value">${email || "-"}</span></div>
+      <div class="details-item"><i>🎬</i> <b>Suscripción:</b> <span class="value">${items || "-"}</span></div>
+      <div class="details-item"><i>💵</i> <b>Total:</b> <span class="value">$${parseFloat(total || 0).toFixed(2)} USD</span></div>
+    `;
+
+    // === Enviar comprobante por WhatsApp ===
+    document.getElementById("btnWhatsApp").addEventListener("click", function() {
+      const texto = `*Nuevo comprobante de pago VivaStore (Binance Pay)*\n\n` +
+                    `*Cliente:* ${name || "No especificado"}\n` +
+                    `*Correo:* ${email || "No especificado"}\n` +
+                    `*Suscripción:* ${items || "No especificado"}\n` +
+                    `*Total:* $${parseFloat(total || 0).toFixed(2)} USD\n\n` +
+                    `He realizado mi pago por Binance Pay y adjunto mi comprobante para validarlo.`;
+      const mensaje = encodeURIComponent(texto);
+      window.open(`https://wa.me/50432736285?text=${mensaje}`, "_blank");
+    });
+  </script>
+</body>
+</html>
