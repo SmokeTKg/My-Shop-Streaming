@@ -349,8 +349,12 @@
       localStorage.setItem("viva_total", totalFinal.toFixed(2));
 
       if (selected === "binance") {
-        window.location.href = `/pago-binance.html?total=${totalFinal.toFixed(2)}&name=${encodeURIComponent(name)}&email=${encodeURIComponent(email)}&items=${encodeURIComponent(formattedNames)}`;
-      } 
+  window.location.href = "pago-binance.html?total=" + 
+    totalFinal.toFixed(2) + 
+    "&name=" + encodeURIComponent(name) + 
+    "&email=" + encodeURIComponent(email) + 
+    "&items=" + encodeURIComponent(formattedNames);
+} 
       else if (selected === "whatsapp") {
         const pedidoID = "VIVA-" + Math.floor(Math.random() * 90000 + 10000);
         const mensaje = encodeURIComponent(
