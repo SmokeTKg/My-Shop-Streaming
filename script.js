@@ -1,5 +1,5 @@
 /* =========================================================
-   VivaStore — script.js (estable)
+   VivaStore — script.js (estable + FIX Render + Crunchyroll)
    ========================================================= */
 document.addEventListener('DOMContentLoaded', () => {
   const $ = s => document.querySelector(s);
@@ -10,34 +10,40 @@ document.addEventListener('DOMContentLoaded', () => {
   const nf = new Intl.NumberFormat('en-US', { style:'currency', currency:'USD' });
   const fmt = (usd) => nf.format(usd);
 
-/* Productos */
-const products = [
-  { id:'netflix',   name:'Netflix',          usd:5.49, img:'./img/netflix.jpg' },
-  { id:'spotify',   name:'Spotify Premium',  usd:3.49, img:'./img/spotify.jpg' },
-  { id:'disney',    name:'Disney+',          usd:5.49, img:'./img/disneyplus.jpg' },
-  { id:'hbomax',    name:'HBO Max',          usd:6.49, img:'./img/hbomax.png' },
-  { id:'prime',     name:'Prime Video',      usd:4.49, img:'./img/primevideo.jpg' },
-  { id:'paramount', name:'Paramount+',       usd:4.99, img:'./img/paramount.jpg' },
-  { id:'vix',       name:'ViX Premium',      usd:3.99, img:'./img/vix.jpg' },
-];
-const productMap = Object.fromEntries(products.map(p => [p.id, p]));
+  /* === Productos === */
+  const products = [
+    { id:'netflix',   name:'Netflix',          usd:5.49, img:'./img/netflix.jpg' },
+    { id:'spotify',   name:'Spotify Premium',  usd:3.49, img:'./img/spotify.jpg' },
+    { id:'disney',    name:'Disney+',          usd:5.49, img:'./img/disneyplus.jpg' },
+    { id:'hbomax',    name:'HBO Max',          usd:6.49, img:'./img/hbomax.png' },
+    { id:'prime',     name:'Prime Video',      usd:4.49, img:'./img/primevideo.jpg' },
+    { id:'paramount', name:'Paramount+',       usd:4.99, img:'./img/paramount.jpg' },
+    { id:'vix',       name:'ViX Premium',      usd:3.99, img:'./img/vix.jpg' },
+    { id:'crunchyroll', name:'Crunchyroll',    usd:5.49, img:'./img/crunchyroll.jpg' } // Nuevo producto
+  ];
+  const productMap = Object.fromEntries(products.map(p => [p.id, p]));
 
-  const renderProducts = () => {
-  const grid = $('#products-grid');
-  if (!grid) return;
-  grid.innerHTML = products.map(p => `
-    <article class="product-card">
-      <img src="${p.img}" alt="${p.name}" class="product-img" loading="lazy">
-      <h3 class="product-title">${p.name}</h3>
-      <div class="product-price">${fmt(p.usd)}</div>
-      <div class="product-actions">
-        <button class="btn btn-primary add-btn" data-id="${p.id}">Agregar</button>
-      </div>
-    </article>
-  `).join('');
-};
+  /* === Renderizado de productos === */
+  function renderProducts() {
+    const grid = document.getElementById("products-grid");
+    if (!grid) {
+      console.warn("⚠️ No se encontró el contenedor #products-grid");
+      return;
+    }
+    grid.innerHTML = products.map(p => `
+      <article class="product-card" data-aos="fade-up">
+        <img src="${p.img}" alt="${p.name}" class="product-img" loading="lazy">
+        <h3 class="product-title">${p.name}</h3>
+        <div class="product-price">${fmt(p.usd)}</div>
+        <div class="product-actions">
+          <button class="btn btn-primary add-btn" data-id="${p.id}">Agregar</button>
+        </div>
+      </article>
+    `).join('');
+    if (window.AOS) AOS.init(); // 🔥 inicializa animaciones
+  }
 
-  /* Carrito */
+  /* === Carrito === */
   const btnCart=$('#btn-cart'), panel=$('#cart-panel'), overlay=$('#overlay'),
         badge=$('#cart-badge'), list=$('#cart-items'), totalEl=$('#cart-total');
 
@@ -92,9 +98,7 @@ const productMap = Object.fromEntries(products.map(p => [p.id, p]));
   });
 
   $('#clear-cart')?.addEventListener('click', ()=>{ cart=[]; saveCart(); updateCartUI(); });
-  $('#checkout')?.addEventListener('click', ()=>{
-  window.location.href = 'checkout.html';
-});
+  $('#checkout')?.addEventListener('click', ()=>{ window.location.href = 'checkout.html'; });
   $('#close-cart')?.addEventListener('click', closeCart);
   overlay?.addEventListener('click', closeCart);
   btnCart?.addEventListener('click', openCart);
@@ -103,7 +107,7 @@ const productMap = Object.fromEntries(products.map(p => [p.id, p]));
     const b=e.target.closest('.add-btn'); if(!b) return; addToCart(b.dataset.id);
   });
 
-  /* Opiniones */
+  /* === Opiniones === */
   const starsWrap=$('#stars'); let rating=0;
   const paint=n=>{ if(!starsWrap) return; [...starsWrap.children].forEach((s,i)=>s.classList.toggle('active',i<n)); };
   starsWrap?.addEventListener('click', e=>{
@@ -157,7 +161,7 @@ const productMap = Object.fromEntries(products.map(p => [p.id, p]));
     updateReviewSummary(); showToast('¡Gracias por tu reseña!');
   });
 
-  /* Contacto */
+  /* === Contacto === */
   $('#contact-form')?.addEventListener('submit', e=>{
     e.preventDefault();
     const n=$('#c-name').value.trim(), m=$('#c-msg').value.trim();
@@ -166,21 +170,25 @@ const productMap = Object.fromEntries(products.map(p => [p.id, p]));
     e.target.reset();
   });
 
-  /* Init */
-  renderProducts(); updateCartUI(); updateReviewSummary();
+  /* === Init === */
+  renderProducts(); // 🔥 Asegura renderizado tras carga
+  updateCartUI();
+  updateReviewSummary();
 
-  // Scroll suave
+  // === Scroll suave ===
   document.body.addEventListener('click', e=>{
     const a=e.target.closest('a[href^="#"]'); if(!a) return;
     const el=$(a.getAttribute('href')); if(!el) return; e.preventDefault(); el.scrollIntoView({behavior:'smooth',block:'start'});
   });
-  // === Menú hamburguesa móvil ===
-const menuToggle = document.getElementById('menu-toggle');
-const nav = document.getElementById('main-nav');
 
-if (menuToggle && nav) {
-  menuToggle.addEventListener('click', () => {
-    nav.classList.toggle('nav-open');
-  });
-}
+  // === Menú hamburguesa móvil ===
+  const menuToggle = document.getElementById('menu-toggle');
+  const nav = document.getElementById('main-nav');
+  if (menuToggle && nav) menuToggle.addEventListener('click', () => nav.classList.toggle('nav-open'));
+});
+window.addEventListener("load", () => {
+  const loader = document.getElementById("loader");
+  setTimeout(() => {
+    loader.classList.add("hidden");
+  }, 800); // tiempo de fade-out
 });
